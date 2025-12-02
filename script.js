@@ -1,7 +1,17 @@
 // ============================================
+// Smooth Easing Function (Define Early)
+// ============================================
+$(document).ready(function() {
+    $.easing.easeInOutCubic = function(x, t, b, c, d) {
+        if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+        return c / 2 * ((t -= 2) * t * t + 2) + b;
+    };
+});
+
+// ============================================
 // Theme Toggle Functionality
 // ============================================
-(function() {
+$(document).ready(function() {
     // Check for saved theme preference or default to dark mode
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
@@ -19,22 +29,81 @@
 
     function updateThemeIcon(theme) {
         const icon = $('#themeIcon');
-        if (theme === 'dark') {
-            icon.removeClass('fa-moon').addClass('fa-sun');
-        } else {
-            icon.removeClass('fa-sun').addClass('fa-moon');
+        if (icon.length) {
+            if (theme === 'dark') {
+                icon.removeClass('fa-moon').addClass('fa-sun');
+            } else {
+                icon.removeClass('fa-sun').addClass('fa-moon');
+            }
         }
     }
-})();
+});
 
 // ============================================
 // Preloader
 // ============================================
-$(window).on('load', function() {
-    $('.preloader').addClass('hidden');
+$(document).ready(function() {
+    let resourcesLoaded = false;
+    let minTimeElapsed = false;
+    const minDisplayTime = 1500; // Minimum 1.5 seconds display time
+    const startTime = Date.now();
+
+    // Prevent scrolling during preloader
+    $('body').addClass('preloader-active').css('overflow', 'hidden');
+
+    function checkResourcesLoaded() {
+        if (document.readyState === 'complete') {
+            resourcesLoaded = true;
+        }
+    }
+
+    function checkMinTime() {
+        const elapsed = Date.now() - startTime;
+        if (elapsed >= minDisplayTime) {
+            minTimeElapsed = true;
+        }
+    }
+
+    function checkIfReady() {
+        if (resourcesLoaded && minTimeElapsed) {
+            $('.preloader').addClass('hidden');
+            setTimeout(function() {
+                $('.preloader').css('display', 'none');
+                $('body').removeClass('preloader-active').css('overflow', '');
+            }, 500);
+        }
+    }
+
+    // Check when window loads
+    $(window).on('load', function() {
+        resourcesLoaded = true;
+        checkIfReady();
+    });
+
+    // Check if already loaded
+    if (document.readyState === 'complete') {
+        resourcesLoaded = true;
+    } else {
+        // Fallback check
+        setTimeout(function() {
+            resourcesLoaded = true;
+            checkIfReady();
+        }, 100);
+    }
+
+    // Check minimum time
+    checkMinTime();
+    setInterval(function() {
+        checkMinTime();
+        checkIfReady();
+    }, 100);
+
+    // Fallback timeout (5 seconds max)
     setTimeout(function() {
-        $('.preloader').css('display', 'none');
-    }, 500);
+        resourcesLoaded = true;
+        minTimeElapsed = true;
+        checkIfReady();
+    }, 5000);
 });
 
 // ============================================
@@ -275,13 +344,6 @@ $(document).ready(function() {
     animateOnScroll();
 });
 
-// ============================================
-// Smooth Easing Function
-// ============================================
-$.easing.easeInOutCubic = function(x, t, b, c, d) {
-    if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
-    return c / 2 * ((t -= 2) * t * t + 2) + b;
-};
 
 // ============================================
 // Project Card Hover Effects
