@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - SOHAIB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .project-detail {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+        .project-detail-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .project-detail-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .project-detail-header .project-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .project-detail-header .project-tags {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .project-detail-header .project-tags span {
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .project-detail-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .project-hero-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
+        }
+        .project-description {
+            background: var(--bg-secondary);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+        }
+        .project-description h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        .project-description p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .project-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+        }
+        .back-button:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .project-link-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        .project-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .project-link-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        .project-link-btn.secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="index.html">SOHAIB</a>
+                </div>
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html#home" class="nav-link">Home</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="index.html#services" class="nav-link">Services</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <a href="index.html#testimonials" class="nav-link">Testimonials</a>
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <button class="menu-toggle" id="menuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Detail Section -->
+    <section class="project-detail">
+        <div class="container">
+            <div class="project-detail-content">
+                <a href="index.html#projects" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Back to Projects
+                </a>
+
+                <div class="project-detail-header" id="projectHeader">
+                    <h1 id="projectTitle">Loading...</h1>
+                    <div class="project-meta">
+                        <span><i class="far fa-calendar"></i> <span id="projectDate">2024</span></span>
+                        <span><i class="fas fa-user"></i> Client: <span id="projectClient">Client Name</span></span>
+                        <span><i class="fas fa-tag"></i> Category: <span id="projectCategory">Web Development</span></span>
+                    </div>
+                    <div class="project-tags" id="projectTags"></div>
+                </div>
+
+                <img src="" alt="Project Image" class="project-hero-image" id="projectHeroImage">
+
+                <div class="project-description">
+                    <h2>Project Overview</h2>
+                    <div id="projectDescription"></div>
+                </div>
+
+                <div class="project-features" id="projectFeatures"></div>
+
+                <div class="project-gallery" id="projectGallery"></div>
+
+                <div class="project-links" id="projectLinks"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 All Rights Reserved.</p>
+                <div class="footer-links">
+                    <a href="index.html#home">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#projects">Projects</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Project data
+        const projects = {
+            1: {
+                title: "E-Commerce WordPress Site",
+                date: "January 2024",
+                client: "Retail Company",
+                category: "E-Commerce",
+                tags: ["WordPress", "WooCommerce", "PHP", "JavaScript"],
+                heroImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=500&fit=crop",
+                description: `
+                    <p>This project involved creating a fully functional e-commerce website using WordPress and WooCommerce. The site features a modern, responsive design that works seamlessly across all devices.</p>
+                    <p>The development process included custom theme development, WooCommerce integration, payment gateway setup, and advanced product management features. The site is optimized for performance and SEO, ensuring fast load times and excellent search engine visibility.</p>
+                    <p>Key challenges included implementing a custom checkout process, integrating multiple payment methods, and creating an intuitive admin interface for product management. The final result is a robust, scalable e-commerce solution that meets all client requirements.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-shopping-cart",
+                        title: "WooCommerce Integration",
+                        description: "Full e-commerce functionality with product management, cart, and checkout"
+                    },
+                    {
+                        icon: "fas fa-credit-card",
+                        title: "Payment Gateway",
+                        description: "Multiple payment options including Stripe, PayPal, and bank transfers"
+                    },
+                    {
+                        icon: "fas fa-mobile-alt",
+                        title: "Responsive Design",
+                        description: "Fully responsive layout that works perfectly on all devices"
+                    },
+                    {
+                        icon: "fas fa-tachometer-alt",
+                        title: "Performance Optimized",
+                        description: "Optimized for speed with caching, image optimization, and CDN integration"
+                    }
+                ],
+                gallery: [
+                    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1556740758-90de374c12ad?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1556742111-a301076d9d18?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop"
+                ],
+                links: [
+                    { text: "Live Site", url: "#", icon: "fas fa-external-link-alt" },
+                    { text: "GitHub", url: "#", icon: "fab fa-github", secondary: true }
+                ]
+            },
+            2: {
+                title: "Custom Blog Theme",
+                date: "March 2024",
+                client: "Content Creator",
+                category: "Blog",
+                tags: ["WordPress", "CSS3", "JavaScript", "Custom Theme"],
+                heroImage: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=500&fit=crop",
+                description: `
+                    <p>A custom WordPress theme designed specifically for bloggers and content creators. The theme features a clean, modern design that puts content first while maintaining excellent readability and user experience.</p>
+                    <p>The theme includes custom post types for different content formats, advanced widget areas, and a flexible layout system. It's built with performance in mind, using modern CSS and JavaScript techniques to ensure fast load times.</p>
+                    <p>Special attention was given to typography, spacing, and color schemes to create an aesthetically pleasing reading experience. The theme is fully customizable through the WordPress customizer, allowing users to personalize their site without touching code.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-pen-fancy",
+                        title: "Custom Post Types",
+                        description: "Support for articles, reviews, tutorials, and more"
+                    },
+                    {
+                        icon: "fas fa-palette",
+                        title: "Customizable Design",
+                        description: "Easy customization through WordPress customizer"
+                    },
+                    {
+                        icon: "fas fa-search",
+                        title: "SEO Optimized",
+                        description: "Built-in SEO features and schema markup"
+                    },
+                    {
+                        icon: "fas fa-comments",
+                        title: "Social Integration",
+                        description: "Social sharing buttons and comment system"
+                    }
+                ],
+                gallery: [
+                    "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=450&fit=crop"
+                ],
+                links: [
+                    { text: "Live Site", url: "#", icon: "fas fa-external-link-alt" },
+                    { text: "GitHub", url: "#", icon: "fab fa-github", secondary: true }
+                ]
+            },
+            3: {
+                title: "WooCommerce Plugin",
+                date: "May 2024",
+                client: "E-Commerce Business",
+                category: "Plugin Development",
+                tags: ["WordPress", "PHP", "WooCommerce", "Plugin"],
+                heroImage: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1200&h=500&fit=crop",
+                description: `
+                    <p>A custom WooCommerce plugin that extends the functionality of online stores with advanced product management and checkout features. The plugin provides store owners with powerful tools to manage their inventory and improve the shopping experience.</p>
+                    <p>The plugin includes features like bulk product operations, custom checkout fields, order management enhancements, and reporting tools. It's built following WordPress coding standards and best practices for security and performance.</p>
+                    <p>One of the key features is a custom product recommendation engine that suggests related products based on customer behavior. The plugin also includes advanced discount management and loyalty program integration.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-boxes",
+                        title: "Bulk Operations",
+                        description: "Manage multiple products at once with bulk actions"
+                    },
+                    {
+                        icon: "fas fa-file-invoice",
+                        title: "Custom Checkout",
+                        description: "Additional checkout fields and validation"
+                    },
+                    {
+                        icon: "fas fa-chart-line",
+                        title: "Advanced Reporting",
+                        description: "Detailed sales and product performance reports"
+                    },
+                    {
+                        icon: "fas fa-gift",
+                        title: "Loyalty Program",
+                        description: "Built-in loyalty points and rewards system"
+                    }
+                ],
+                gallery: [
+                    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=450&fit=crop"
+                ],
+                links: [
+                    { text: "Download", url: "#", icon: "fas fa-download" },
+                    { text: "Documentation", url: "#", icon: "fas fa-book", secondary: true }
+                ]
+            },
+            4: {
+                title: "Corporate Website",
+                date: "July 2024",
+                client: "Business Corporation",
+                category: "Corporate",
+                tags: ["WordPress", "Elementor", "SEO", "Business"],
+                heroImage: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=500&fit=crop",
+                description: `
+                    <p>A professional corporate website built with WordPress and Elementor page builder. The site serves as the digital face of a large corporation, featuring company information, services, team members, and contact details.</p>
+                    <p>The design emphasizes professionalism and trust, with a clean layout and strategic use of white space. The site includes multiple custom sections, interactive elements, and a comprehensive contact system.</p>
+                    <p>Special focus was placed on SEO optimization, ensuring the site ranks well in search engines. The site also includes multilingual support and is fully accessible according to WCAG guidelines.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-building",
+                        title: "Professional Design",
+                        description: "Clean, modern design that reflects company values"
+                    },
+                    {
+                        icon: "fas fa-globe",
+                        title: "Multilingual",
+                        description: "Support for multiple languages and regions"
+                    },
+                    {
+                        icon: "fas fa-universal-access",
+                        title: "Accessible",
+                        description: "WCAG compliant for accessibility standards"
+                    },
+                    {
+                        icon: "fas fa-bullhorn",
+                        title: "SEO Optimized",
+                        description: "Advanced SEO features and optimization"
+                    }
+                ],
+                gallery: [
+                    "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&h=450&fit=crop"
+                ],
+                links: [
+                    { text: "Live Site", url: "#", icon: "fas fa-external-link-alt" }
+                ]
+            },
+            5: {
+                title: "Responsive Portfolio Theme",
+                date: "September 2024",
+                client: "Creative Agency",
+                category: "Portfolio",
+                tags: ["WordPress", "Responsive", "CSS3", "Portfolio"],
+                heroImage: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&h=500&fit=crop",
+                description: `
+                    <p>A mobile-first WordPress theme designed specifically for creative professionals to showcase their work. The theme features a stunning portfolio grid layout, smooth animations, and excellent performance.</p>
+                    <p>The theme is built with a focus on visual impact, allowing creatives to present their work in the best possible way. It includes multiple portfolio layouts, filtering options, and lightbox galleries.</p>
+                    <p>Responsive design was a top priority, ensuring the portfolio looks perfect on all devices from mobile phones to large desktop screens. The theme also includes blog functionality for sharing updates and insights.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-th",
+                        title: "Portfolio Grid",
+                        description: "Multiple layout options for showcasing work"
+                    },
+                    {
+                        icon: "fas fa-filter",
+                        title: "Filtering System",
+                        description: "Filter portfolio items by category or tag"
+                    },
+                    {
+                        icon: "fas fa-expand",
+                        title: "Lightbox Gallery",
+                        description: "Beautiful lightbox for viewing portfolio images"
+                    },
+                    {
+                        icon: "fas fa-blog",
+                        title: "Blog Integration",
+                        description: "Built-in blog for sharing updates and articles"
+                    }
+                ],
+                gallery: [
+                    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=450&fit=crop"
+                ],
+                links: [
+                    { text: "Live Demo", url: "#", icon: "fas fa-external-link-alt" },
+                    { text: "Purchase", url: "#", icon: "fas fa-shopping-cart", secondary: true }
+                ]
+            },
+            6: {
+                title: "Custom WordPress Plugin",
+                date: "November 2024",
+                client: "Web Agency",
+                category: "Plugin Development",
+                tags: ["WordPress", "PHP", "API", "Custom Plugin"],
+                heroImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=500&fit=crop",
+                description: `
+                    <p>An advanced WordPress plugin for content management and user interactions. The plugin provides powerful tools for managing content, user interactions, and site functionality.</p>
+                    <p>The plugin includes REST API integration, custom database tables, admin interfaces, and frontend components. It's designed to be extensible and follows WordPress coding standards.</p>
+                    <p>Key features include user activity tracking, content analytics, custom post type management, and advanced search functionality. The plugin is fully documented and includes hooks for developers to extend functionality.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-plug",
+                        title: "REST API",
+                        description: "Full REST API for external integrations"
+                    },
+                    {
+                        icon: "fas fa-database",
+                        title: "Custom Tables",
+                        description: "Efficient data storage with custom database tables"
+                    },
+                    {
+                        icon: "fas fa-cog",
+                        title: "Admin Interface",
+                        description: "Comprehensive admin panel for configuration"
+                    },
+                    {
+                        icon: "fas fa-code",
+                        title: "Developer Friendly",
+                        description: "Extensible with hooks and filters"
+                    }
+                ],
+                gallery: [
+                    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop",
+                    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=450&fit=crop"
+                ],
+                links: [
+                    { text: "GitHub", url: "#", icon: "fab fa-github" },
+                    { text: "Documentation", url: "#", icon: "fas fa-book", secondary: true }
+                ]
+            }
+        };
+
+        // Get project ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('id') || '1';
+        const project = projects[projectId];
+
+        if (project) {
+            // Populate project data
+            $('#projectTitle').text(project.title);
+            $('#projectDate').text(project.date);
+            $('#projectClient').text(project.client);
+            $('#projectCategory').text(project.category);
+            $('#projectHeroImage').attr('src', project.heroImage).attr('alt', project.title);
+            $('#projectDescription').html(project.description);
+
+            // Populate tags
+            const tagsHtml = project.tags.map(tag => `<span>${tag}</span>`).join('');
+            $('#projectTags').html(tagsHtml);
+
+            // Populate features
+            const featuresHtml = project.features.map(feature => `
+                <div class="feature-card">
+                    <i class="${feature.icon}"></i>
+                    <h3>${feature.title}</h3>
+                    <p>${feature.description}</p>
+                </div>
+            `).join('');
+            $('#projectFeatures').html(featuresHtml);
+
+            // Populate gallery
+            const galleryHtml = project.gallery.map(image => `
+                <div class="gallery-item">
+                    <img src="${image}" alt="Project Screenshot">
+                </div>
+            `).join('');
+            $('#projectGallery').html(galleryHtml);
+
+            // Populate links
+            const linksHtml = project.links.map(link => `
+                <a href="${link.url}" class="project-link-btn ${link.secondary ? 'secondary' : ''}" target="_blank">
+                    <i class="${link.icon}"></i> ${link.text}
+                </a>
+            `).join('');
+            $('#projectLinks').html(linksHtml);
+
+            // Update page title
+            document.title = `${project.title} - SOHAIB`;
+        } else {
+            // Project not found
+            $('#projectTitle').text('Project Not Found');
+            $('#projectDescription').html('<p>The requested project could not be found.</p>');
+        }
+
+        // Gallery lightbox functionality
+        $(document).on('click', '.gallery-item', function() {
+            const imgSrc = $(this).find('img').attr('src');
+            const lightbox = $(`
+                <div class="lightbox" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <img src="${imgSrc}" style="max-width: 90%; max-height: 90%; border-radius: 10px;">
+                    <button style="position: absolute; top: 20px; right: 20px; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem;">&times;</button>
+                </div>
+            `);
+            $('body').append(lightbox);
+            lightbox.on('click', function() {
+                lightbox.remove();
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOHAIB - WordPress Developer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <div class="preloader-logo">SOHAIB</div>
+            <div class="loader"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="#home">SOHAIB</a>
+                </div>
+                <div class="nav-menu" id="navMenu">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#services" class="nav-link">Services</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#testimonials" class="nav-link">Testimonials</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                    <a href="#resume" class="nav-link">Resume</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="https://wa.me/923105204482" target="_blank" class="whatsapp-btn" title="Contact on WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <button class="menu-toggle" id="menuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="hero-shapes"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>👋 Available for new projects</span>
+                </div>
+                <h1 class="hero-title">
+                    Hello, I'm <span class="highlight">SOHAIB</span><br>
+                    <span class="hero-subtitle">WordPress Developer</span>
+                </h1>
+                <p class="hero-description">
+                    Crafting beautiful and functional WordPress websites with <strong>3+ years</strong> of professional experience. 
+                    Specialized in custom themes, plugins, and e-commerce solutions.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+                <div class="scroll-indicator">
+                    <span>Scroll down</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About Me</h2>
+                <p class="section-subtitle">Get to know me better</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>WordPress Developer & Web Enthusiast</h3>
+                    <p>
+                        I'm a passionate WordPress developer with 3+ years of hands-on experience in creating dynamic, 
+                        responsive, and user-friendly websites. My journey in web development has been driven by a love 
+                        for clean code, modern design, and exceptional user experiences.
+                    </p>
+                    <p>
+                        I specialize in custom WordPress theme development, plugin creation, WooCommerce solutions, and 
+                        website optimization. My approach combines technical expertise with creative problem-solving to 
+                        deliver websites that not only look great but also perform exceptionally.
+                    </p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" data-target="25">0</div>
+                        <div class="stat-label">Projects Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" data-target="20">0</div>
+                        <div class="stat-label">Happy Clients</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">My Services</h2>
+                <p class="section-subtitle">What I can do for you</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fab fa-wordpress"></i>
+                    </div>
+                    <h3>Custom WordPress Development</h3>
+                    <p>I build fast, secure, and fully custom WordPress websites using modern tools like Elementor, ACF, and custom themes.</p>
+                    <a href="#contact" class="service-link">Order now <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>UI/UX Design</h3>
+                    <p>From Figma or PSD to a flawless front-end — I turn your designs into responsive, pixel-perfect web interfaces.</p>
+                    <a href="#contact" class="service-link">Order now <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Dynamic Functionality</h3>
+                    <p>Need flexible, content-rich websites? I create scalable custom post types and fields to power any layout or logic.</p>
+                    <a href="#contact" class="service-link">Order now <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Optimization & Maintenance</h3>
+                    <p>Boost site speed, SEO, and performance — I ensure your site loads fast, stays secure, and runs smoothly.</p>
+                    <a href="#contact" class="service-link">Order now <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Skills & Expertise</h2>
+                <p class="section-subtitle">Technologies I work with</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <i class="fab fa-wordpress"></i>
+                    <h4>WordPress</h4>
+                    <p>Custom themes, plugins, and full-site development</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-php"></i>
+                    <h4>PHP</h4>
+                    <p>Backend development and WordPress customization</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-js"></i>
+                    <h4>JavaScript</h4>
+                    <p>Interactive features and dynamic functionality</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fab fa-html5"></i>
+                    <h4>HTML5 & CSS3</h4>
+                    <p>Semantic markup and modern styling</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h4>WooCommerce</h4>
+                    <p>E-commerce solutions and online stores</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <h4>Page Builders</h4>
+                    <p>Elementor, Gutenberg, and custom builders</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Projects</h2>
+                <p class="section-subtitle">Some of my recent work</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card" data-project="1">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="E-Commerce WordPress Site">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=1" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>E-Commerce WordPress Site</h3>
+                        <p>Custom WooCommerce store with advanced features and modern design</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>WooCommerce</span>
+                            <span>PHP</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="2">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&h=400&fit=crop" alt="Custom Blog Theme">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=2" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Custom Blog Theme</h3>
+                        <p>Fully responsive WordPress theme with custom post types and widgets</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="3">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop" alt="WooCommerce Plugin">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=3" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>WooCommerce Plugin</h3>
+                        <p>Custom plugin for enhanced product management and checkout process</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>PHP</span>
+                            <span>WooCommerce</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="4">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop" alt="Corporate Website">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=4" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Corporate Website</h3>
+                        <p>Business website with custom theme, contact forms, and SEO optimization</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>Elementor</span>
+                            <span>SEO</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="5">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop" alt="Responsive Portfolio Theme">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=5" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Responsive Portfolio Theme</h3>
+                        <p>Mobile-first WordPress theme for creative professionals</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>Responsive</span>
+                            <span>CSS3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="6">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop" alt="Custom WordPress Plugin">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=6" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Custom WordPress Plugin</h3>
+                        <p>Advanced plugin for content management and user interactions</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>PHP</span>
+                            <span>API</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Pricing Plans</h2>
+                <p class="section-subtitle">Choose the perfect plan for your project</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Basic</h3>
+                        <div class="pricing-price">
+                            <span class="currency">$</span>
+                            <span class="amount">299</span>
+                            <span class="period">/project</span>
+                        </div>
+                        <p>Perfect for small businesses and personal websites</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Custom WordPress Theme</li>
+                        <li><i class="fas fa-check"></i> Responsive Design</li>
+                        <li><i class="fas fa-check"></i> 5 Pages Included</li>
+                        <li><i class="fas fa-check"></i> Contact Form Integration</li>
+                        <li><i class="fas fa-check"></i> Basic SEO Setup</li>
+                        <li><i class="fas fa-check"></i> 1 Month Support</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Get Started</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Popular</div>
+                    <div class="pricing-header">
+                        <h3>Professional</h3>
+                        <div class="pricing-price">
+                            <span class="currency">$</span>
+                            <span class="amount">599</span>
+                            <span class="period">/project</span>
+                        </div>
+                        <p>Ideal for growing businesses and e-commerce</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Custom WordPress Theme</li>
+                        <li><i class="fas fa-check"></i> Fully Responsive Design</li>
+                        <li><i class="fas fa-check"></i> Up to 10 Pages</li>
+                        <li><i class="fas fa-check"></i> WooCommerce Integration</li>
+                        <li><i class="fas fa-check"></i> Custom Plugin Development</li>
+                        <li><i class="fas fa-check"></i> Advanced SEO Optimization</li>
+                        <li><i class="fas fa-check"></i> Payment Gateway Setup</li>
+                        <li><i class="fas fa-check"></i> 3 Months Support</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Get Started</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <div class="pricing-price">
+                            <span class="currency">$</span>
+                            <span class="amount">999</span>
+                            <span class="period">/project</span>
+                        </div>
+                        <p>Complete solution for large businesses</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Custom WordPress Theme</li>
+                        <li><i class="fas fa-check"></i> Fully Responsive Design</li>
+                        <li><i class="fas fa-check"></i> Unlimited Pages</li>
+                        <li><i class="fas fa-check"></i> Advanced WooCommerce Store</li>
+                        <li><i class="fas fa-check"></i> Multiple Custom Plugins</li>
+                        <li><i class="fas fa-check"></i> API Integrations</li>
+                        <li><i class="fas fa-check"></i> Performance Optimization</li>
+                        <li><i class="fas fa-check"></i> Security Hardening</li>
+                        <li><i class="fas fa-check"></i> 6 Months Support</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Testimonials</h2>
+                <p class="section-subtitle">What clients say about me</p>
+            </div>
+            <div class="testimonials-slider">
+                <div class="testimonial-card active">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>Working with this developer was an absolute pleasure. The attention to detail and professionalism exceeded my expectations. The website turned out exactly as I envisioned and even better!</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=faces" alt="Paul Freeman">
+                        </div>
+                        <div class="author-info">
+                            <h4>Paul Freeman</h4>
+                            <p>Interior Designer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>The custom WordPress theme created for my photography portfolio is stunning. It's fast, responsive, and showcases my work beautifully. Highly recommended!</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=faces" alt="Oscar Oldman">
+                        </div>
+                        <div class="author-info">
+                            <h4>Oscar Oldman</h4>
+                            <p>Photographer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>Excellent communication throughout the project. The e-commerce site is exactly what I needed, and the WooCommerce integration is seamless. Thank you!</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&crop=faces" alt="Viktoria Newman">
+                        </div>
+                        <div class="author-info">
+                            <h4>Viktoria Newman</h4>
+                            <p>Model</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-nav">
+                <button class="testimonial-btn prev" id="prevTestimonial">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="testimonial-dots">
+                    <span class="dot active" data-slide="0"></span>
+                    <span class="dot" data-slide="1"></span>
+                    <span class="dot" data-slide="2"></span>
+                </div>
+                <button class="testimonial-btn next" id="nextTestimonial">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Let's work together on your next project</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Connect</h3>
+                    <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p><a href="mailto:sohaibsheikh71@gmail.com">sohaibsheikh71@gmail.com</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p><a href="tel:+923105204482">+92 310 520 4482</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Location</h4>
+                                <p>Available for Remote Work</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <p class="form-note">
+                            <i class="fas fa-lock"></i> I promise the confidentiality of your personal information
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 All Rights Reserved.</p>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
