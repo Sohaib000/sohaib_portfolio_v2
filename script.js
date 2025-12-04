@@ -48,19 +48,23 @@ $(document).ready(function() {
     const minDisplayTime = 300; // Reduced to 300ms for faster LCP
     const startTime = Date.now();
 
-    // Show hero content immediately for LCP - Batch CSS changes
-    requestAnimationFrame(function() {
-        const hero = document.querySelector('.hero');
-        const heroTitle = document.querySelector('.hero-title');
-        if (hero) {
-            hero.style.opacity = '1';
-            hero.style.visibility = 'visible';
-        }
-        if (heroTitle) {
-            heroTitle.style.opacity = '1';
-            heroTitle.style.visibility = 'visible';
-        }
-    });
+    // Show hero content immediately for LCP - No delay for banner visibility
+    const hero = document.querySelector('.hero');
+    const heroContent = document.querySelector('.hero-content');
+    const heroTitle = document.querySelector('.hero-title');
+    if (hero) {
+        hero.style.opacity = '1';
+        hero.style.visibility = 'visible';
+        hero.style.display = 'flex';
+    }
+    if (heroContent) {
+        heroContent.style.opacity = '1';
+        heroContent.style.visibility = 'visible';
+    }
+    if (heroTitle) {
+        heroTitle.style.opacity = '1';
+        heroTitle.style.visibility = 'visible';
+    }
 
     // Prevent scrolling during preloader (but allow hero to be visible) - Batch CSS changes
     requestAnimationFrame(function() {
