@@ -183,37 +183,58 @@ $(document).ready(function() {
     let lastScrollPos = 0;
     const sectionOffsets = {};
     
-    // Cache section offsets once on load - Use requestAnimationFrame to prevent forced reflow
+    // Cache section offsets once on load - Optimized to prevent forced reflows
     function cacheSectionOffsets() {
-        requestAnimationFrame(function() {
-            $('.nav-link').each(function() {
-                const href = $(this).attr('href');
-                if (href && href.startsWith('#')) {
-                    const section = document.querySelector(href);
-                    if (section) {
-                        // Batch all reads together - use getBoundingClientRect for both
-                        const rect = section.getBoundingClientRect();
-                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                        sectionOffsets[href] = {
-                            top: rect.top + scrollTop,
-                            height: rect.height
-                        };
-                    }
+        // Wait for layout to be complete before reading
+        if (document.readyState !== 'complete') {
+            window.addEventListener('load', cacheSectionOffsets);
+            return;
+        }
+        
+        // Collect all sections first, then batch read all layout properties
+        const sectionsToCache = [];
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                const section = document.querySelector(href);
+                if (section) {
+                    sectionsToCache.push({ href: href, section: section });
                 }
-            });
+            }
         });
+        
+        // Batch all layout reads in a single requestAnimationFrame after a small delay
+        // This ensures layout is stable before reading
+        setTimeout(function() {
+            requestAnimationFrame(function() {
+                // Use window.pageYOffset only (doesn't cause reflow)
+                const scrollTop = window.pageYOffset || 0;
+                
+                // Read all bounding rects in one batch - this is the only layout read
+                sectionsToCache.forEach(function(item) {
+                    const rect = item.section.getBoundingClientRect();
+                    sectionOffsets[item.href] = {
+                        top: rect.top + scrollTop,
+                        height: rect.height
+                    };
+                });
+            });
+        }, 100); // Small delay to ensure layout is complete
     }
     
-    // Cache offsets after DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', cacheSectionOffsets);
-    } else {
+    // Cache offsets after page is fully loaded
+    if (document.readyState === 'complete') {
         cacheSectionOffsets();
+    } else {
+        window.addEventListener('load', cacheSectionOffsets);
     }
     
-    // Throttled scroll handler using requestAnimationFrame
+    // Throttled scroll handler using requestAnimationFrame - No forced reflows
     function updateActiveNav() {
-        const scrollPos = window.pageYOffset || document.documentElement.scrollTop || 0;
+        // Use only window.pageYOffset to avoid forced reflow (read-only property)
+        const scrollPos = window.pageYOffset || 0;
         const scrollPosWithOffset = scrollPos + 100;
         
         // Only update if scroll position changed significantly
@@ -222,18 +243,23 @@ $(document).ready(function() {
         }
         lastScrollPos = scrollPos;
         
+        // Use native DOM methods to avoid jQuery overhead and forced reflows
         let activeFound = false;
-        $('.nav-link').each(function() {
-            const currLink = $(this);
-            const href = currLink.attr('href');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(function(link) {
+            const href = link.getAttribute('href');
             
             if (href && href.startsWith('#') && sectionOffsets[href]) {
                 const offset = sectionOffsets[href];
                 if (offset.top <= scrollPosWithOffset && 
                     offset.top + offset.height > scrollPosWithOffset) {
                     if (!activeFound) {
-                        $('.nav-link').removeClass('active');
-                        currLink.addClass('active');
+                        // Batch DOM writes to prevent forced reflows
+                        navLinks.forEach(function(l) {
+                            l.classList.remove('active');
+                        });
+                        link.classList.add('active');
                         activeFound = true;
                     }
                 }
@@ -264,7 +290,8 @@ $(document).ready(function() {
                 // Calculate offset in next frame to avoid forced reflow
                 requestAnimationFrame(function() {
                     const rect = target.getBoundingClientRect();
-                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    // Use only window.pageYOffset to avoid forced reflow
+                    const scrollTop = window.pageYOffset || 0;
                     targetOffset = rect.top + scrollTop;
                     
                     $('html, body').stop(true, true).animate({
@@ -584,7 +611,8 @@ function getAboutSectionOffset() {
         if (aboutSection) {
             // Use getBoundingClientRect to avoid forced reflow
             const rect = aboutSection.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            // Use only window.pageYOffset to avoid forced reflow
+            const scrollTop = window.pageYOffset || 0;
             aboutSectionOffset = rect.top + scrollTop;
         }
     }
