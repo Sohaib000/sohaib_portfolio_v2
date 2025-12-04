@@ -1,12 +1,25 @@
 // ============================================
 // Smooth Easing Function (Define Early)
 // ============================================
-$(document).ready(function() {
-    $.easing.easeInOutCubic = function(x, t, b, c, d) {
-        if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
-        return c / 2 * ((t -= 2) * t * t + 2) + b;
-    };
-});
+// Wait for jQuery to load (since scripts are deferred)
+(function() {
+    function initEasing() {
+        if (typeof jQuery !== 'undefined' && jQuery.easing) {
+            jQuery.easing.easeInOutCubic = function(x, t, b, c, d) {
+                if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+                return c / 2 * ((t -= 2) * t * t + 2) + b;
+            };
+        } else {
+            // Retry if jQuery not loaded yet
+            setTimeout(initEasing, 10);
+        }
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEasing);
+    } else {
+        initEasing();
+    }
+})();
 
 // ============================================
 // Theme Toggle Functionality
@@ -170,23 +183,33 @@ $(document).ready(function() {
     let lastScrollPos = 0;
     const sectionOffsets = {};
     
-    // Cache section offsets once on load
+    // Cache section offsets once on load - Use requestAnimationFrame to prevent forced reflow
     function cacheSectionOffsets() {
-        $('.nav-link').each(function() {
-            const href = $(this).attr('href');
-            if (href && href.startsWith('#')) {
-                const section = $(href);
-                if (section.length) {
-                    sectionOffsets[href] = {
-                        top: section[0].offsetTop,
-                        height: section[0].offsetHeight
-                    };
+        requestAnimationFrame(function() {
+            $('.nav-link').each(function() {
+                const href = $(this).attr('href');
+                if (href && href.startsWith('#')) {
+                    const section = document.querySelector(href);
+                    if (section) {
+                        // Batch all reads together - use getBoundingClientRect for both
+                        const rect = section.getBoundingClientRect();
+                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        sectionOffsets[href] = {
+                            top: rect.top + scrollTop,
+                            height: rect.height
+                        };
+                    }
                 }
-            }
+            });
         });
     }
     
-    cacheSectionOffsets();
+    // Cache offsets after DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', cacheSectionOffsets);
+    } else {
+        cacheSectionOffsets();
+    }
     
     // Throttled scroll handler using requestAnimationFrame
     function updateActiveNav() {
@@ -233,8 +256,23 @@ $(document).ready(function() {
         
         if (target) {
             e.preventDefault();
-            // Use cached offset or get it once
-            const targetOffset = sectionOffsets[href] ? sectionOffsets[href].top : target.offsetTop;
+            // Use cached offset or calculate once using requestAnimationFrame
+            let targetOffset;
+            if (sectionOffsets[href]) {
+                targetOffset = sectionOffsets[href].top;
+            } else {
+                // Calculate offset in next frame to avoid forced reflow
+                requestAnimationFrame(function() {
+                    const rect = target.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    targetOffset = rect.top + scrollTop;
+                    
+                    $('html, body').stop(true, true).animate({
+                        scrollTop: targetOffset - 70
+                    }, 800, 'easeInOutCubic');
+                });
+                return;
+            }
             
             requestAnimationFrame(function() {
                 $('html, body').stop(true, true).animate({
@@ -544,7 +582,10 @@ function getAboutSectionOffset() {
     if (aboutSectionOffset === null) {
         const aboutSection = document.querySelector('#about');
         if (aboutSection) {
-            aboutSectionOffset = aboutSection.offsetTop;
+            // Use getBoundingClientRect to avoid forced reflow
+            const rect = aboutSection.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            aboutSectionOffset = rect.top + scrollTop;
         }
     }
     return aboutSectionOffset || 0;
@@ -563,9 +604,11 @@ $('.scroll-indicator').on('click', function() {
 // Initialize on Document Ready
 // ============================================
 $(document).ready(function() {
-    // Set initial active nav link - Use requestAnimationFrame to avoid forced reflow
+    // Set initial active nav link - No forced reflow, just check scroll position
+    // Use requestAnimationFrame to batch with other operations
     requestAnimationFrame(function() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        // Use window.pageYOffset which doesn't cause reflow
+        const scrollTop = window.pageYOffset || 0;
         if (scrollTop === 0) {
             $('.nav-link[href="#home"]').addClass('active');
         }
