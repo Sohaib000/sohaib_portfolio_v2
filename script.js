@@ -45,10 +45,14 @@ $(document).ready(function() {
 $(document).ready(function() {
     let resourcesLoaded = false;
     let minTimeElapsed = false;
-    const minDisplayTime = 1500; // Minimum 1.5 seconds display time
+    const minDisplayTime = 300; // Reduced to 300ms for faster LCP
     const startTime = Date.now();
 
-    // Prevent scrolling during preloader
+    // Show hero content immediately for LCP
+    $('.hero').css('opacity', '1').css('visibility', 'visible');
+    $('.hero-title').css('opacity', '1').css('visibility', 'visible');
+
+    // Prevent scrolling during preloader (but allow hero to be visible)
     $('body').addClass('preloader-active').css('overflow', 'hidden');
 
     function checkResourcesLoaded() {
@@ -70,7 +74,7 @@ $(document).ready(function() {
             setTimeout(function() {
                 $('.preloader').css('display', 'none');
                 $('body').removeClass('preloader-active').css('overflow', '');
-            }, 500);
+            }, 300); // Reduced from 500ms to 300ms
         }
     }
 
@@ -88,7 +92,7 @@ $(document).ready(function() {
         setTimeout(function() {
             resourcesLoaded = true;
             checkIfReady();
-        }, 100);
+        }, 50); // Reduced from 100ms
     }
 
     // Check minimum time
@@ -96,14 +100,14 @@ $(document).ready(function() {
     setInterval(function() {
         checkMinTime();
         checkIfReady();
-    }, 100);
+    }, 50); // Reduced from 100ms
 
-    // Fallback timeout (5 seconds max)
+    // Fallback timeout (reduced to 2 seconds)
     setTimeout(function() {
         resourcesLoaded = true;
         minTimeElapsed = true;
         checkIfReady();
-    }, 5000);
+    }, 2000);
 });
 
 // ============================================
