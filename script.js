@@ -48,12 +48,26 @@ $(document).ready(function() {
     const minDisplayTime = 300; // Reduced to 300ms for faster LCP
     const startTime = Date.now();
 
-    // Show hero content immediately for LCP
-    $('.hero').css('opacity', '1').css('visibility', 'visible');
-    $('.hero-title').css('opacity', '1').css('visibility', 'visible');
+    // Show hero content immediately for LCP - Batch CSS changes
+    requestAnimationFrame(function() {
+        const hero = document.querySelector('.hero');
+        const heroTitle = document.querySelector('.hero-title');
+        if (hero) {
+            hero.style.opacity = '1';
+            hero.style.visibility = 'visible';
+        }
+        if (heroTitle) {
+            heroTitle.style.opacity = '1';
+            heroTitle.style.visibility = 'visible';
+        }
+    });
 
-    // Prevent scrolling during preloader (but allow hero to be visible)
-    $('body').addClass('preloader-active').css('overflow', 'hidden');
+    // Prevent scrolling during preloader (but allow hero to be visible) - Batch CSS changes
+    requestAnimationFrame(function() {
+        const body = document.body;
+        body.classList.add('preloader-active');
+        body.style.overflow = 'hidden';
+    });
 
     function checkResourcesLoaded() {
         if (document.readyState === 'complete') {
@@ -70,11 +84,19 @@ $(document).ready(function() {
 
     function checkIfReady() {
         if (resourcesLoaded && minTimeElapsed) {
-            $('.preloader').addClass('hidden');
-            setTimeout(function() {
-                $('.preloader').css('display', 'none');
-                $('body').removeClass('preloader-active').css('overflow', '');
-            }, 300); // Reduced from 500ms to 300ms
+            requestAnimationFrame(function() {
+                const preloader = document.querySelector('.preloader');
+                const body = document.body;
+                
+                if (preloader) {
+                    preloader.classList.add('hidden');
+                    setTimeout(function() {
+                        preloader.style.display = 'none';
+                        body.classList.remove('preloader-active');
+                        body.style.overflow = '';
+                    }, 300);
+                }
+            });
         }
     }
 
@@ -139,48 +161,112 @@ $(document).ready(function() {
         }
     });
 
-    // Active navigation link on scroll
-    $(window).on('scroll', function() {
-        const scrollPos = $(window).scrollTop() + 100;
-        
+    // Active navigation link on scroll - Optimized to prevent forced reflows
+    let scrollTimeout;
+    let lastScrollPos = 0;
+    const sectionOffsets = {};
+    
+    // Cache section offsets once on load
+    function cacheSectionOffsets() {
         $('.nav-link').each(function() {
-            const currLink = $(this);
-            const refElement = $(currLink.attr('href'));
-            
-            if (refElement.length && 
-                refElement.position().top <= scrollPos && 
-                refElement.position().top + refElement.height() > scrollPos) {
-                $('.nav-link').removeClass('active');
-                currLink.addClass('active');
+            const href = $(this).attr('href');
+            if (href && href.startsWith('#')) {
+                const section = $(href);
+                if (section.length) {
+                    sectionOffsets[href] = {
+                        top: section[0].offsetTop,
+                        height: section[0].offsetHeight
+                    };
+                }
             }
         });
+    }
+    
+    cacheSectionOffsets();
+    
+    // Throttled scroll handler using requestAnimationFrame
+    function updateActiveNav() {
+        const scrollPos = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const scrollPosWithOffset = scrollPos + 100;
+        
+        // Only update if scroll position changed significantly
+        if (Math.abs(scrollPos - lastScrollPos) < 10) {
+            return;
+        }
+        lastScrollPos = scrollPos;
+        
+        let activeFound = false;
+        $('.nav-link').each(function() {
+            const currLink = $(this);
+            const href = currLink.attr('href');
+            
+            if (href && href.startsWith('#') && sectionOffsets[href]) {
+                const offset = sectionOffsets[href];
+                if (offset.top <= scrollPosWithOffset && 
+                    offset.top + offset.height > scrollPosWithOffset) {
+                    if (!activeFound) {
+                        $('.nav-link').removeClass('active');
+                        currLink.addClass('active');
+                        activeFound = true;
+                    }
+                }
+            }
+        });
+    }
+    
+    let rafId;
+    $(window).on('scroll', function() {
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+        }
+        rafId = requestAnimationFrame(updateActiveNav);
     });
 
-    // Smooth scrolling for anchor links
+    // Smooth scrolling for anchor links - Optimized to prevent forced reflows
     $('a[href^="#"]').on('click', function(e) {
-        const target = $(this.getAttribute('href'));
-        if (target.length) {
+        const href = this.getAttribute('href');
+        const target = document.querySelector(href);
+        
+        if (target) {
             e.preventDefault();
-            $('html, body').stop(true, true).animate({
-                scrollTop: target.offset().top - 70
-            }, 800, 'easeInOutCubic');
+            // Use cached offset or get it once
+            const targetOffset = sectionOffsets[href] ? sectionOffsets[href].top : target.offsetTop;
+            
+            requestAnimationFrame(function() {
+                $('html, body').stop(true, true).animate({
+                    scrollTop: targetOffset - 70
+                }, 800, 'easeInOutCubic');
+            });
         }
     });
 });
 
 // ============================================
-// Navbar scroll effect
+// Navbar scroll effect - Optimized to prevent forced reflows
 // ============================================
-$(window).on('scroll', function() {
-    if ($(window).scrollTop() > 50) {
-        $('.navbar').css({
-            'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)'
-        });
-    } else {
-        $('.navbar').css({
-            'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.05)'
-        });
+let navbarRafId;
+let navbarShadowState = false;
+
+function updateNavbarShadow() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const shouldHaveShadow = scrollTop > 50;
+    
+    if (shouldHaveShadow !== navbarShadowState) {
+        navbarShadowState = shouldHaveShadow;
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            navbar.style.boxShadow = shouldHaveShadow 
+                ? '0 4px 6px rgba(0, 0, 0, 0.1)' 
+                : '0 2px 4px rgba(0, 0, 0, 0.05)';
+        }
     }
+}
+
+$(window).on('scroll', function() {
+    if (navbarRafId) {
+        cancelAnimationFrame(navbarRafId);
+    }
+    navbarRafId = requestAnimationFrame(updateNavbarShadow);
 });
 
 // ============================================
@@ -375,23 +461,46 @@ $('.project-card').on('mouseenter', function() {
 });
 
 // ============================================
-// Scroll to Top Button (Optional Enhancement)
+// Scroll to Top Button - Optimized to prevent forced reflows
 // ============================================
-$(window).on('scroll', function() {
-    if ($(window).scrollTop() > 300) {
-        if ($('.scroll-to-top').length === 0) {
-            $('body').append('<button class="scroll-to-top"><i class="fas fa-arrow-up"></i></button>');
-            
-            $('.scroll-to-top').on('click', function() {
-                $('html, body').animate({
-                    scrollTop: 0
-                }, 800);
-            });
+let scrollTopRafId;
+let scrollTopButtonState = false;
+
+function updateScrollTopButton() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const shouldShow = scrollTop > 300;
+    
+    if (shouldShow !== scrollTopButtonState) {
+        scrollTopButtonState = shouldShow;
+        let button = document.querySelector('.scroll-to-top');
+        
+        if (shouldShow) {
+            if (!button) {
+                button = document.createElement('button');
+                button.className = 'scroll-to-top';
+                button.innerHTML = '<i class="fas fa-arrow-up"></i>';
+                document.body.appendChild(button);
+                
+                button.addEventListener('click', function() {
+                    requestAnimationFrame(function() {
+                        $('html, body').animate({
+                            scrollTop: 0
+                        }, 800);
+                    });
+                });
+            }
+            button.style.display = 'flex';
+        } else if (button) {
+            button.style.display = 'none';
         }
-        $('.scroll-to-top').fadeIn();
-    } else {
-        $('.scroll-to-top').fadeOut();
     }
+}
+
+$(window).on('scroll', function() {
+    if (scrollTopRafId) {
+        cancelAnimationFrame(scrollTopRafId);
+    }
+    scrollTopRafId = requestAnimationFrame(updateScrollTopButton);
 });
 
 // Add styles for scroll to top button
@@ -423,21 +532,39 @@ $('<style>')
     .appendTo('head');
 
 // ============================================
-// Scroll Down Indicator
+// Scroll Down Indicator - Optimized to prevent forced reflows
 // ============================================
+let aboutSectionOffset = null;
+
+function getAboutSectionOffset() {
+    if (aboutSectionOffset === null) {
+        const aboutSection = document.querySelector('#about');
+        if (aboutSection) {
+            aboutSectionOffset = aboutSection.offsetTop;
+        }
+    }
+    return aboutSectionOffset || 0;
+}
+
 $('.scroll-indicator').on('click', function() {
-    $('html, body').animate({
-        scrollTop: $('#about').offset().top - 70
-    }, 1000, 'easeInOutCubic');
+    const offset = getAboutSectionOffset();
+    requestAnimationFrame(function() {
+        $('html, body').animate({
+            scrollTop: offset - 70
+        }, 1000, 'easeInOutCubic');
+    });
 });
 
 // ============================================
 // Initialize on Document Ready
 // ============================================
 $(document).ready(function() {
-    // Set initial active nav link
-    if ($(window).scrollTop() === 0) {
-        $('.nav-link[href="#home"]').addClass('active');
-    }
+    // Set initial active nav link - Use requestAnimationFrame to avoid forced reflow
+    requestAnimationFrame(function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (scrollTop === 0) {
+            $('.nav-link[href="#home"]').addClass('active');
+        }
+    });
 });
 
