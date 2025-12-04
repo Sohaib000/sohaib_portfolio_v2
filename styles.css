@@ -48,6 +48,36 @@
 
 html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent layout shifts */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Optimize all images for smooth rendering */
+img[loading="lazy"] {
+    content-visibility: auto;
+}
+
+/* Smooth page transitions */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent jerky animations */
+.project-card,
+.stat-card,
+.service-card,
+.pricing-card,
+.testimonial-card {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 body {
@@ -57,6 +87,9 @@ body {
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 body.preloader-active {
@@ -84,6 +117,7 @@ body.preloader-active {
     align-items: center;
     z-index: 9999;
     transition: opacity 0.5s ease, visibility 0.5s ease;
+    will-change: opacity, visibility;
 }
 
 .preloader.hidden {
@@ -183,6 +217,8 @@ body.preloader-active {
     z-index: 1000;
     transition: all 0.3s ease;
     border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+    will-change: transform, background-color;
+    transform: translateZ(0);
 }
 
 [data-theme="dark"] .navbar {
@@ -994,8 +1030,11 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.5s ease, filter 0.3s ease;
     filter: brightness(0.9) contrast(1.1);
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .project-card:hover .project-image img {
@@ -1330,6 +1369,9 @@ section {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .testimonial-card.active .author-avatar img {

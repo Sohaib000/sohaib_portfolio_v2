@@ -157,9 +157,9 @@ $(document).ready(function() {
         const target = $(this.getAttribute('href'));
         if (target.length) {
             e.preventDefault();
-            $('html, body').stop().animate({
+            $('html, body').stop(true, true).animate({
                 scrollTop: target.offset().top - 70
-            }, 1000, 'easeInOutCubic');
+            }, 800, 'easeInOutCubic');
         }
     });
 });
