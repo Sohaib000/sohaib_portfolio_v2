@@ -185,7 +185,23 @@ $(window).on('scroll', function() {
 function animateCounter() {
     $('.stat-number').each(function() {
         const $this = $(this);
-        const target = parseInt($this.attr('data-target'));
+        const targetValue = $this.attr('data-target');
+        
+        // Handle missing or invalid data-target attribute
+        if (!targetValue || targetValue === '') {
+            return; // Skip animation for elements without data-target
+        }
+        
+        // Extract numeric part and suffix (e.g., "4+" -> target: 4, suffix: "+")
+        const match = targetValue.match(/^(\d+)(.*)$/);
+        const target = match ? parseInt(match[1]) : parseInt(targetValue);
+        const suffix = match ? match[2] : '';
+        
+        // Validate that we have a valid number
+        if (isNaN(target)) {
+            return; // Skip animation if target is not a valid number
+        }
+        
         const duration = 2000; // 2 seconds
         const increment = target / (duration / 16); // 60fps
         let current = 0;
@@ -193,10 +209,10 @@ function animateCounter() {
         const updateCounter = function() {
             current += increment;
             if (current < target) {
-                $this.text(Math.floor(current));
+                $this.text(Math.floor(current) + suffix);
                 requestAnimationFrame(updateCounter);
             } else {
-                $this.text(target);
+                $this.text(target + suffix);
             }
         };
 
