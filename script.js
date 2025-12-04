@@ -79,12 +79,24 @@ $(document).ready(function() {
         heroTitle.style.visibility = 'visible';
     }
 
-    // Prevent scrolling during preloader (but allow hero to be visible) - Batch CSS changes
-    requestAnimationFrame(function() {
+    // Check if preloader exists on this page
+    const preloader = document.querySelector('.preloader');
+    const isResumePage = window.location.pathname.includes('resume.html') || 
+                         document.querySelector('.resume-page') !== null;
+
+    // Only prevent scrolling if preloader exists (not on resume page)
+    if (preloader && !isResumePage) {
+        requestAnimationFrame(function() {
+            const body = document.body;
+            body.classList.add('preloader-active');
+            body.style.overflow = 'hidden';
+        });
+    } else {
+        // No preloader or on resume page - ensure scrolling is enabled
         const body = document.body;
-        body.classList.add('preloader-active');
-        body.style.overflow = 'hidden';
-    });
+        body.classList.remove('preloader-active');
+        body.style.overflow = '';
+    }
 
     function checkResourcesLoaded() {
         if (document.readyState === 'complete') {
@@ -112,6 +124,10 @@ $(document).ready(function() {
                         body.classList.remove('preloader-active');
                         body.style.overflow = '';
                     }, 300);
+                } else {
+                    // No preloader element found (e.g., on resume page) - remove preloader styles immediately
+                    body.classList.remove('preloader-active');
+                    body.style.overflow = '';
                 }
             });
         }
