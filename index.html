@@ -20,42 +20,9 @@
     <link rel="preload" href="styles.css" as="style">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Load Font Awesome CSS only after page is fully interactive - Remove from critical path -->
-    <script>
-        (function() {
-            function loadFontAwesome() {
-                // Only load if not already loaded
-                if (document.querySelector('link[href*="font-awesome"][href*="all.min.css"]')) {
-                    return;
-                }
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-                link.media = 'all';
-                link.crossOrigin = 'anonymous';
-                document.head.appendChild(link);
-            }
-            // Use requestIdleCallback if available, otherwise use longer delay after load
-            if (window.requestIdleCallback) {
-                window.requestIdleCallback(function() {
-                    setTimeout(loadFontAwesome, 1000);
-                }, { timeout: 2000 });
-            } else {
-                // Fallback: Load after page is fully loaded with longer delay
-                if (document.readyState === 'complete') {
-                    setTimeout(loadFontAwesome, 2000);
-                } else {
-                    window.addEventListener('load', function() {
-                        setTimeout(loadFontAwesome, 2000);
-                    });
-                }
-            }
-        })();
-    </script>
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"></noscript>
-    <!-- Inject font-display: swap for Font Awesome fonts - Include all font variants -->
+    <!-- Inject font-display: swap for Font Awesome fonts - Inline for early application -->
     <style>
-        /* Override Font Awesome CDN @font-face to add font-display: swap - Inline for immediate application */
+        /* Override Font Awesome CDN @font-face to add font-display: swap - Applied before CDN CSS */
         @font-face {
             font-family: "Font Awesome 6 Free";
             font-style: normal;
@@ -78,6 +45,60 @@
             src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2") format("woff2");
         }
     </style>
+    <!-- Load Font Awesome CSS only after page is fully interactive - Remove from critical path -->
+    <script>
+        (function() {
+            function injectFontDisplay() {
+                // Inject font-face rules with font-display: swap AFTER CDN CSS loads to override it
+                var styleId = 'fa-font-display-override';
+                if (document.getElementById(styleId)) {
+                    return; // Already injected
+                }
+                var style = document.createElement('style');
+                style.id = styleId;
+                style.textContent = '@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2") format("woff2")}@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-regular-400.woff2") format("woff2")}@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2") format("woff2")}';
+                document.head.appendChild(style);
+            }
+            
+            function loadFontAwesome() {
+                // Only load if not already loaded
+                if (document.querySelector('link[href*="font-awesome"][href*="all.min.css"]')) {
+                    // CSS already loaded, inject font-display override
+                    setTimeout(injectFontDisplay, 100);
+                    return;
+                }
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+                link.media = 'all';
+                link.crossOrigin = 'anonymous';
+                // Inject font-display override after CSS loads
+                link.onload = function() {
+                    setTimeout(injectFontDisplay, 50);
+                };
+                document.head.appendChild(link);
+                // Fallback: inject after a delay even if onload doesn't fire
+                setTimeout(injectFontDisplay, 500);
+            }
+            
+            // Use requestIdleCallback if available, otherwise use longer delay after load
+            if (window.requestIdleCallback) {
+                window.requestIdleCallback(function() {
+                    setTimeout(loadFontAwesome, 1000);
+                }, { timeout: 2000 });
+            } else {
+                // Fallback: Load after page is fully loaded with longer delay
+                if (document.readyState === 'complete') {
+                    setTimeout(loadFontAwesome, 2000);
+                } else {
+                    window.addEventListener('load', function() {
+                        setTimeout(loadFontAwesome, 2000);
+                    });
+                }
+            }
+        })();
+    </script>
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"></noscript>
     
     <!-- Load Google Fonts asynchronously -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
