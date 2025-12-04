@@ -632,18 +632,27 @@ $('.scroll-indicator').on('click', function() {
 // Initialize on Document Ready
 // ============================================
 $(document).ready(function() {
-    // Set initial active nav link - No forced reflow, batch DOM writes
-    // Use requestAnimationFrame to batch with other operations
-    requestAnimationFrame(function() {
-        // Use window.pageYOffset which doesn't cause reflow (read-only property)
-        const scrollTop = window.pageYOffset || 0;
-        if (scrollTop === 0) {
-            // Batch DOM write - use native DOM to avoid jQuery overhead
-            const homeLink = document.querySelector('.nav-link[href="#home"]');
-            if (homeLink) {
-                homeLink.classList.add('active');
+    // Set initial active nav link - Defer to avoid forced reflow during page load
+    // Wait for page to be fully loaded before setting initial state
+    if (document.readyState === 'complete') {
+        setInitialNavLink();
+    } else {
+        window.addEventListener('load', setInitialNavLink);
+    }
+    
+    function setInitialNavLink() {
+        // Use requestAnimationFrame to batch with other operations after page load
+        requestAnimationFrame(function() {
+            // Use window.pageYOffset which doesn't cause reflow (read-only property)
+            const scrollTop = window.pageYOffset || 0;
+            if (scrollTop === 0) {
+                // Batch DOM write - use native DOM to avoid jQuery overhead
+                const homeLink = document.querySelector('.nav-link[href="#home"]');
+                if (homeLink) {
+                    homeLink.classList.add('active');
+                }
             }
-        }
-    });
+        });
+    }
 });
 

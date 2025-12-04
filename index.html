@@ -6,7 +6,7 @@
     <meta name="description" content="Professional WordPress Developer with 4+ years of experience. Specializing in custom WordPress themes, WooCommerce solutions, plugin development, and responsive web design. Get your WordPress website built today!">
     <title>SOHAIB - WordPress Developer</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <!-- Preconnect to CDN origins for faster loading - Prioritize critical resources -->
+    <!-- Preconnect to CDN origins EARLY - Must be before any other resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -22,7 +22,7 @@
     <link rel="preload" href="styles.css" as="style">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Load Font Awesome CSS after page load to reduce render-blocking and unused CSS -->
+    <!-- Load Font Awesome CSS after page is fully loaded to remove from critical path -->
     <script>
         (function() {
             function loadFontAwesome() {
@@ -32,13 +32,14 @@
                 link.media = 'all';
                 document.head.appendChild(link);
             }
-            // Load after DOM is ready and page is interactive
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function() {
-                    setTimeout(loadFontAwesome, 100);
-                });
+            // Load after page is fully loaded to remove from critical path
+            if (document.readyState === 'complete') {
+                // Page already loaded, wait a bit more to ensure it's not blocking
+                setTimeout(loadFontAwesome, 500);
             } else {
-                setTimeout(loadFontAwesome, 100);
+                window.addEventListener('load', function() {
+                    setTimeout(loadFontAwesome, 500);
+                });
             }
         })();
     </script>
