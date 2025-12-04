@@ -632,13 +632,17 @@ $('.scroll-indicator').on('click', function() {
 // Initialize on Document Ready
 // ============================================
 $(document).ready(function() {
-    // Set initial active nav link - No forced reflow, just check scroll position
+    // Set initial active nav link - No forced reflow, batch DOM writes
     // Use requestAnimationFrame to batch with other operations
     requestAnimationFrame(function() {
-        // Use window.pageYOffset which doesn't cause reflow
+        // Use window.pageYOffset which doesn't cause reflow (read-only property)
         const scrollTop = window.pageYOffset || 0;
         if (scrollTop === 0) {
-            $('.nav-link[href="#home"]').addClass('active');
+            // Batch DOM write - use native DOM to avoid jQuery overhead
+            const homeLink = document.querySelector('.nav-link[href="#home"]');
+            if (homeLink) {
+                homeLink.classList.add('active');
+            }
         }
     });
 });
