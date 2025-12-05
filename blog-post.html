@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read the complete article about WordPress development, tips, and tutorials from SOHAIB - Professional WordPress Developer">
+    <title>Complete Guide to Custom WordPress Theme Development - SOHAIB Blog</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <!-- Preconnect to CDN origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous">
+    <link rel="preconnect" href="https://code.jquery.com" crossorigin="anonymous">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://code.jquery.com">
+    
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Load Font Awesome asynchronously -->
+    <script>
+        (function() {
+            function loadFontAwesome() {
+                if (document.querySelector('link[href*="font-awesome"][href*="all.min.css"]')) {
+                    return;
+                }
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+                link.media = 'all';
+                link.crossOrigin = 'anonymous';
+                document.head.appendChild(link);
+            }
+            
+            if (window.requestIdleCallback) {
+                window.requestIdleCallback(function() {
+                    setTimeout(loadFontAwesome, 1000);
+                }, { timeout: 2000 });
+            } else {
+                if (document.readyState === 'complete') {
+                    setTimeout(loadFontAwesome, 2000);
+                } else {
+                    window.addEventListener('load', function() {
+                        setTimeout(loadFontAwesome, 2000);
+                    });
+                }
+            }
+        })();
+    </script>
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"></noscript>
+    
+    <!-- Load Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="index.html">SOHAIB</a>
+                </div>
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="index.html#services" class="nav-link">Services</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <a href="index.html#testimonials" class="nav-link">Testimonials</a>
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                    <a href="blog.html" class="nav-link active">Blog</a>
+                    <a href="resume.html" class="nav-link">Resume</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="https://wa.me/923105204482" target="_blank" class="whatsapp-btn" title="Contact on WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Header -->
+    <article class="blog-post-detail">
+        <div class="blog-post-header">
+            <div class="container">
+                <div class="blog-post-header-content">
+                    <div class="blog-post-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <i class="fas fa-chevron-right"></i>
+                        <a href="blog.html">Blog</a>
+                        <i class="fas fa-chevron-right"></i>
+                        <span>Article</span>
+                    </div>
+                    <div class="blog-post-category-badge">WordPress</div>
+                    <h1 class="blog-post-detail-title">Complete Guide to Custom WordPress Theme Development</h1>
+                    <div class="blog-post-detail-meta">
+                        <div class="meta-item">
+                            <div class="author-avatar-small">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <span class="meta-label">Author</span>
+                                <span class="meta-value">SOHAIB</span>
+                            </div>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <div>
+                                <span class="meta-label">Published</span>
+                                <span class="meta-value">January 15, 2025</span>
+                            </div>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <span class="meta-label">Reading Time</span>
+                                <span class="meta-value">8 min read</span>
+                            </div>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-eye"></i>
+                            <div>
+                                <span class="meta-label">Views</span>
+                                <span class="meta-value">1,234</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Image -->
+        <div class="blog-post-featured-image">
+            <img src="images/project-1.webp" alt="WordPress Custom Theme Development" loading="eager">
+        </div>
+
+        <!-- Blog Post Content -->
+        <div class="blog-post-detail-content">
+            <div class="container">
+                <div class="blog-post-layout">
+                    <!-- Main Content -->
+                    <main class="blog-post-main">
+                        <div class="blog-post-body">
+                            <p class="blog-post-intro">
+                                Building custom WordPress themes from scratch is one of the most rewarding skills a web developer can master. In this comprehensive guide, I'll walk you through everything you need to know to create professional, responsive, and SEO-friendly WordPress themes.
+                            </p>
+
+                            <h2>Why Build Custom WordPress Themes?</h2>
+                            <p>
+                                While there are thousands of pre-made themes available, creating a custom theme gives you complete control over your website's design, functionality, and performance. Custom themes are tailored to your specific needs, load faster, and provide a unique user experience.
+                            </p>
+
+                            <h2>Setting Up Your Development Environment</h2>
+                            <p>
+                                Before diving into theme development, you'll need a proper development environment. Here's what you need:
+                            </p>
+                            <ul>
+                                <li><strong>Local Development Server:</strong> Use tools like Local by Flywheel, XAMPP, or MAMP</li>
+                                <li><strong>Code Editor:</strong> VS Code, PhpStorm, or Sublime Text</li>
+                                <li><strong>WordPress Installation:</strong> Latest version of WordPress</li>
+                                <li><strong>Browser DevTools:</strong> For debugging and testing</li>
+                            </ul>
+
+                            <h2>Understanding WordPress Theme Structure</h2>
+                            <p>
+                                A WordPress theme consists of several essential files. The minimum required files are:
+                            </p>
+                            <ul>
+                                <li><code>style.css</code> - Contains theme information and styles</li>
+                                <li><code>index.php</code> - The main template file</li>
+                                <li><code>functions.php</code> - Theme functions and features</li>
+                            </ul>
+
+                            <h2>Creating Your First Theme</h2>
+                            <p>
+                                Let's start by creating a basic theme structure. Create a new folder in <code>wp-content/themes/</code> with your theme name. Inside this folder, create the following files:
+                            </p>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>style.css</span>
+                                    <button class="copy-code-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code>/*
+Theme Name: Your Theme Name
+Description: A custom WordPress theme
+Author: Your Name
+Version: 1.0
+*/
+
+/* Your CSS styles here */</code></pre>
+                            </div>
+
+                            <h2>Best Practices for Theme Development</h2>
+                            <p>
+                                Following best practices ensures your theme is maintainable, secure, and performs well:
+                            </p>
+                            <ul>
+                                <li>Use WordPress coding standards</li>
+                                <li>Implement proper security measures</li>
+                                <li>Optimize for performance and speed</li>
+                                <li>Make themes responsive and mobile-friendly</li>
+                                <li>Follow accessibility guidelines (WCAG)</li>
+                            </ul>
+
+                            <h2>Adding Custom Functionality</h2>
+                            <p>
+                                The <code>functions.php</code> file is where you add custom features to your theme. This includes:
+                            </p>
+                            <ul>
+                                <li>Enqueuing stylesheets and scripts</li>
+                                <li>Registering navigation menus</li>
+                                <li>Adding theme support features</li>
+                                <li>Creating custom post types</li>
+                                <li>Adding custom fields</li>
+                            </ul>
+
+                            <h2>Responsive Design Implementation</h2>
+                            <p>
+                                Modern websites must be responsive. Use CSS media queries and flexible layouts to ensure your theme looks great on all devices. Consider mobile-first design principles for better performance.
+                            </p>
+
+                            <h2>SEO Optimization</h2>
+                            <p>
+                                A well-coded theme contributes significantly to SEO. Ensure proper HTML structure, semantic markup, and fast loading times. Consider integrating with SEO plugins like Yoast SEO for enhanced functionality.
+                            </p>
+
+                            <h2>Testing Your Theme</h2>
+                            <p>
+                                Before launching, thoroughly test your theme:
+                            </p>
+                            <ul>
+                                <li>Test on different browsers and devices</li>
+                                <li>Check WordPress compatibility</li>
+                                <li>Validate HTML and CSS</li>
+                                <li>Test with various plugins</li>
+                                <li>Check accessibility</li>
+                            </ul>
+
+                            <h2>Conclusion</h2>
+                            <p>
+                                Building custom WordPress themes is a skill that takes time to master, but the results are worth it. You'll have complete control over your website's appearance and functionality, creating unique experiences for your users.
+                            </p>
+                            <p>
+                                If you need help with custom WordPress theme development, feel free to <a href="index.html#contact">contact me</a>. I specialize in creating custom themes that are fast, secure, and tailored to your business needs.
+                            </p>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="blog-post-tags-section">
+                            <h3>Tags:</h3>
+                            <div class="blog-post-tags">
+                                <a href="blog.html?tag=wordpress" class="tag">WordPress</a>
+                                <a href="blog.html?tag=theme-development" class="tag">Theme Development</a>
+                                <a href="blog.html?tag=php" class="tag">PHP</a>
+                                <a href="blog.html?tag=web-development" class="tag">Web Development</a>
+                            </div>
+                        </div>
+
+                        <!-- Share Buttons -->
+                        <div class="blog-post-share">
+                            <h3>Share this article:</h3>
+                            <div class="share-buttons">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="share-btn share-facebook">
+                                    <i class="fab fa-facebook-f"></i> Facebook
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url=" target="_blank" class="share-btn share-twitter">
+                                    <i class="fab fa-twitter"></i> Twitter
+                                </a>
+                                <a href="https://www.linkedin.com/shareArticle?url=" target="_blank" class="share-btn share-linkedin">
+                                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                                </a>
+                                <a href="https://wa.me/?text=" target="_blank" class="share-btn share-whatsapp">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </a>
+                                <button class="share-btn share-copy" onclick="copyPostUrl()">
+                                    <i class="fas fa-link"></i> Copy Link
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Author Box -->
+                        <div class="blog-post-author-box">
+                            <div class="author-box-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="author-box-content">
+                                <h3>SOHAIB</h3>
+                                <p class="author-bio">Professional WordPress Developer with 4+ years of experience. Specializing in custom themes, WooCommerce solutions, and performance optimization.</p>
+                                <div class="author-box-links">
+                                    <a href="index.html#contact" class="author-link">
+                                        <i class="fas fa-envelope"></i> Contact
+                                    </a>
+                                    <a href="resume.html" class="author-link">
+                                        <i class="fas fa-file-alt"></i> Resume
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation to Next/Previous Posts -->
+                        <div class="blog-post-navigation">
+                            <a href="blog-post.html?id=2" class="nav-post prev-post">
+                                <i class="fas fa-chevron-left"></i>
+                                <div>
+                                    <span class="nav-post-label">Previous Post</span>
+                                    <span class="nav-post-title">WooCommerce Performance Optimization</span>
+                                </div>
+                            </a>
+                            <a href="blog-post.html?id=4" class="nav-post next-post">
+                                <div>
+                                    <span class="nav-post-label">Next Post</span>
+                                    <span class="nav-post-title">Advanced Elementor Pro Tips</span>
+                                </div>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+
+                        <!-- Related Posts -->
+                        <div class="related-posts">
+                            <h3>Related Articles</h3>
+                            <div class="related-posts-grid">
+                                <article class="related-post-card">
+                                    <div class="related-post-image">
+                                        <img src="images/project-2.webp" alt="Related Post" loading="lazy">
+                                    </div>
+                                    <div class="related-post-content">
+                                        <span class="related-post-category">E-Commerce</span>
+                                        <h4><a href="blog-post.html?id=2">WooCommerce Performance Optimization</a></h4>
+                                        <span class="related-post-date">Jan 10, 2025</span>
+                                    </div>
+                                </article>
+                                <article class="related-post-card">
+                                    <div class="related-post-image">
+                                        <img src="images/project-3.webp" alt="Related Post" loading="lazy">
+                                    </div>
+                                    <div class="related-post-content">
+                                        <span class="related-post-category">Security</span>
+                                        <h4><a href="blog-post.html?id=3">WordPress Security Best Practices</a></h4>
+                                        <span class="related-post-date">Jan 5, 2025</span>
+                                    </div>
+                                </article>
+                                <article class="related-post-card">
+                                    <div class="related-post-image">
+                                        <img src="images/project-4.webp" alt="Related Post" loading="lazy">
+                                    </div>
+                                    <div class="related-post-content">
+                                        <span class="related-post-category">Design</span>
+                                        <h4><a href="blog-post.html?id=4">Advanced Elementor Pro Tips</a></h4>
+                                        <span class="related-post-date">Dec 28, 2024</span>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- Sidebar -->
+                    <aside class="blog-post-sidebar">
+                        <!-- Table of Contents -->
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">Table of Contents</h3>
+                            <nav class="table-of-contents">
+                                <ul>
+                                    <li><a href="#why-build">Why Build Custom WordPress Themes?</a></li>
+                                    <li><a href="#setup">Setting Up Your Development Environment</a></li>
+                                    <li><a href="#structure">Understanding WordPress Theme Structure</a></li>
+                                    <li><a href="#first-theme">Creating Your First Theme</a></li>
+                                    <li><a href="#best-practices">Best Practices for Theme Development</a></li>
+                                    <li><a href="#functionality">Adding Custom Functionality</a></li>
+                                    <li><a href="#responsive">Responsive Design Implementation</a></li>
+                                    <li><a href="#seo">SEO Optimization</a></li>
+                                    <li><a href="#testing">Testing Your Theme</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <!-- Recent Posts Widget -->
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">Recent Posts</h3>
+                            <ul class="recent-posts-list">
+                                <li class="recent-post-item">
+                                    <a href="blog-post.html?id=1">
+                                        <div class="recent-post-image">
+                                            <img src="images/project-1.webp" alt="Recent Post" loading="lazy">
+                                        </div>
+                                        <div class="recent-post-content">
+                                            <h4>Custom WordPress Theme Development</h4>
+                                            <span class="recent-post-date">Jan 15, 2025</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="recent-post-item">
+                                    <a href="blog-post.html?id=2">
+                                        <div class="recent-post-image">
+                                            <img src="images/project-2.webp" alt="Recent Post" loading="lazy">
+                                        </div>
+                                        <div class="recent-post-content">
+                                            <h4>WooCommerce Performance Optimization</h4>
+                                            <span class="recent-post-date">Jan 10, 2025</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="recent-post-item">
+                                    <a href="blog-post.html?id=3">
+                                        <div class="recent-post-image">
+                                            <img src="images/project-3.webp" alt="Recent Post" loading="lazy">
+                                        </div>
+                                        <div class="recent-post-content">
+                                            <h4>WordPress Security Best Practices</h4>
+                                            <span class="recent-post-date">Jan 5, 2025</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Categories Widget -->
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">Categories</h3>
+                            <ul class="categories-list">
+                                <li>
+                                    <a href="blog.html?category=wordpress">
+                                        <i class="fas fa-folder"></i> WordPress
+                                        <span class="category-count">12</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blog.html?category=ecommerce">
+                                        <i class="fas fa-folder"></i> E-Commerce
+                                        <span class="category-count">8</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blog.html?category=design">
+                                        <i class="fas fa-folder"></i> Design
+                                        <span class="category-count">6</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="blog.html?category=seo">
+                                        <i class="fas fa-folder"></i> SEO
+                                        <span class="category-count">5</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 All Rights Reserved.</p>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#projects">Projects</a>
+                    <a href="index.html#contact">Contact</a>
+                    <a href="blog.html">Blog</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="blog-data.js"></script>
+    <script src="blog-functions.js"></script>
+    <script src="script.js" defer></script>
+    <script>
+        // Copy code functionality
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block').querySelector('code');
+            const text = codeBlock.textContent;
+            navigator.clipboard.writeText(text).then(function() {
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(function() {
+                    btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+
+        // Copy post URL
+        function copyPostUrl() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(function() {
+                const btn = document.querySelector('.share-copy');
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(function() {
+                    btn.innerHTML = original;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
+
