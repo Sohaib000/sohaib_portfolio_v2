@@ -16,7 +16,7 @@
     <link rel="preload" href="styles.css" as="style">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Load Font Awesome CSS ONLY after LCP - Defer completely to avoid blocking render -->
+    <!-- Load Font Awesome CSS ONLY after page is fully interactive - Reduced unused CSS impact -->
     <script>
         (function() {
             // Load Font Awesome after page is interactive and LCP has rendered
@@ -41,25 +41,23 @@
                 document.head.appendChild(link);
             }
             
-            // Wait for LCP to complete before loading Font Awesome
+            // Wait for LCP to complete before loading Font Awesome (reduced delay for better UX)
             if (document.readyState === 'complete') {
-                // Use requestIdleCallback with longer delay to ensure LCP is done
                 if (window.requestIdleCallback) {
                     window.requestIdleCallback(function() {
-                        setTimeout(loadFontAwesome, 3000);
-                    }, { timeout: 5000 });
+                        setTimeout(loadFontAwesome, 2000);
+                    }, { timeout: 4000 });
                 } else {
-                    setTimeout(loadFontAwesome, 3000);
+                    setTimeout(loadFontAwesome, 2000);
                 }
             } else {
                 window.addEventListener('load', function() {
-                    // Wait additional time after load to ensure LCP is complete
                     if (window.requestIdleCallback) {
                         window.requestIdleCallback(function() {
-                            setTimeout(loadFontAwesome, 3000);
-                        }, { timeout: 5000 });
+                            setTimeout(loadFontAwesome, 2000);
+                        }, { timeout: 4000 });
                     } else {
-                        setTimeout(loadFontAwesome, 3000);
+                        setTimeout(loadFontAwesome, 2000);
                     }
                 });
             }
@@ -675,7 +673,8 @@
     <!-- Scripts -->
     <!-- Scripts - Deferred to prevent render blocking (jQuery loads first, then script.js) -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+    <!-- EmailJS - Using unpkg for better cache headers (1 year cache) -->
+    <script type="text/javascript" src="https://unpkg.com/@emailjs/browser@4/dist/email.min.js" defer></script>
     <script src="script.js" defer></script>
 </body>
 </html>
