@@ -828,14 +828,27 @@ function getAboutSectionOffset() {
     return aboutSectionOffset || 0;
 }
 
-$('.scroll-indicator').on('click', function() {
-    const offset = getAboutSectionOffset();
-    requestAnimationFrame(function() {
-        $('html, body').animate({
-            scrollTop: offset - 70
-        }, 1000, 'easeInOutCubic');
-    });
-});
+// Scroll indicator click handler - Optimized for mobile touch
+const scrollIndicator = document.querySelector('.scroll-indicator');
+if (scrollIndicator) {
+    // Use both click and touchstart for better mobile support
+    function handleScrollClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const offset = getAboutSectionOffset();
+        requestAnimationFrame(function() {
+            $('html, body').animate({
+                scrollTop: offset - 70
+            }, 1000, 'easeInOutCubic');
+        });
+    }
+    
+    scrollIndicator.addEventListener('click', handleScrollClick, { passive: false });
+    scrollIndicator.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        handleScrollClick(e);
+    }, { passive: false });
+}
 
 // ============================================
 // Typewriter Effect for Hero Subtitle
