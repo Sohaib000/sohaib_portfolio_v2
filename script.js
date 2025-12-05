@@ -58,7 +58,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     let resourcesLoaded = false;
     let minTimeElapsed = false;
-    const minDisplayTime = 200; // Further reduced to 200ms to improve LCP
+    const minDisplayTime = 300; // Restored to 300ms for better mobile performance balance
     const startTime = Date.now();
     let progress = 0;
 
@@ -270,28 +270,26 @@ $(document).ready(function() {
         });
         
         // Batch all layout reads in a single requestAnimationFrame
-        // Use double RAF to ensure layout is completely stable
+        // Single RAF is sufficient - double RAF adds unnecessary delay on mobile
         requestAnimationFrame(function() {
-            requestAnimationFrame(function() {
-                // Use window.pageYOffset only (doesn't cause reflow)
-                const scrollTop = window.pageYOffset || 0;
-                
-                // Read all bounding rects in one batch - this is the only layout read
-                // Batch all reads first, then process to minimize reflows
-                const rects = sectionsToCache.map(function(item) {
-                    return {
-                        href: item.href,
-                        rect: item.section.getBoundingClientRect()
-                    };
-                });
-                
-                // Now process all cached rects
-                rects.forEach(function(item) {
-                    sectionOffsets[item.href] = {
-                        top: item.rect.top + scrollTop,
-                        height: item.rect.height
-                    };
-                });
+            // Use window.pageYOffset only (doesn't cause reflow)
+            const scrollTop = window.pageYOffset || 0;
+            
+            // Read all bounding rects in one batch - this is the only layout read
+            // Batch all reads first, then process to minimize reflows
+            const rects = sectionsToCache.map(function(item) {
+                return {
+                    href: item.href,
+                    rect: item.section.getBoundingClientRect()
+                };
+            });
+            
+            // Now process all cached rects
+            rects.forEach(function(item) {
+                sectionOffsets[item.href] = {
+                    top: item.rect.top + scrollTop,
+                    height: item.rect.height
+                };
             });
         });
     }
@@ -370,35 +368,31 @@ $(document).ready(function() {
             if (sectionOffsets[href]) {
                 targetOffset = sectionOffsets[href].top;
             } else {
-                // Calculate offset using double RAF to avoid forced reflow
+                // Calculate offset using single RAF - double RAF adds unnecessary delay on mobile
                 requestAnimationFrame(function() {
-                    requestAnimationFrame(function() {
-                        const rect = target.getBoundingClientRect();
-                        // Use only window.pageYOffset to avoid forced reflow
-                        const scrollTop = window.pageYOffset || 0;
-                        targetOffset = rect.top + scrollTop;
-                        
-                        // Cache it for future use
-                        sectionOffsets[href] = {
-                            top: targetOffset,
-                            height: rect.height
-                        };
-                        
-                        $('html, body').stop(true, true).animate({
-                            scrollTop: targetOffset - 70
-                        }, 800, 'easeInOutCubic');
-                    });
-                });
-                return;
-            }
-            
-            // Use double RAF to batch with other operations
-            requestAnimationFrame(function() {
-                requestAnimationFrame(function() {
+                    const rect = target.getBoundingClientRect();
+                    // Use only window.pageYOffset to avoid forced reflow
+                    const scrollTop = window.pageYOffset || 0;
+                    targetOffset = rect.top + scrollTop;
+                    
+                    // Cache it for future use
+                    sectionOffsets[href] = {
+                        top: targetOffset,
+                        height: rect.height
+                    };
+                    
                     $('html, body').stop(true, true).animate({
                         scrollTop: targetOffset - 70
                     }, 800, 'easeInOutCubic');
                 });
+                return;
+            }
+            
+            // Single RAF is sufficient for mobile performance
+            requestAnimationFrame(function() {
+                $('html, body').stop(true, true).animate({
+                    scrollTop: targetOffset - 70
+                }, 800, 'easeInOutCubic');
             });
         }
     });
@@ -837,15 +831,13 @@ function getAboutSectionOffset() {
     if (aboutSectionOffset === null) {
         const aboutSection = document.querySelector('#about');
         if (aboutSection) {
-            // Cache offset using double RAF to ensure layout is stable
+            // Cache offset using single RAF - double RAF adds unnecessary delay
             requestAnimationFrame(function() {
-                requestAnimationFrame(function() {
-                    // Use getBoundingClientRect in RAF to avoid forced reflow
-                    const rect = aboutSection.getBoundingClientRect();
-                    // Use only window.pageYOffset to avoid forced reflow
-                    const scrollTop = window.pageYOffset || 0;
-                    aboutSectionOffset = rect.top + scrollTop;
-                });
+                // Use getBoundingClientRect in RAF to avoid forced reflow
+                const rect = aboutSection.getBoundingClientRect();
+                // Use only window.pageYOffset to avoid forced reflow
+                const scrollTop = window.pageYOffset || 0;
+                aboutSectionOffset = rect.top + scrollTop;
             });
             // Return 0 initially, will be updated in next frame
             return 0;

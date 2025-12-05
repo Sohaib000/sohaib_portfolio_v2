@@ -36,10 +36,13 @@
                 };
                 
                 // Inject font-display: swap BEFORE fonts are requested to ensure it applies
-                var fontDisplayStyle = document.createElement('style');
-                fontDisplayStyle.id = 'fa-font-display';
-                fontDisplayStyle.textContent = '@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap}@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:swap}@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap}';
-                document.head.insertBefore(fontDisplayStyle, link);
+                // Only inject if not already present to avoid duplicate styles
+                if (!document.getElementById('fa-font-display')) {
+                    var fontDisplayStyle = document.createElement('style');
+                    fontDisplayStyle.id = 'fa-font-display';
+                    fontDisplayStyle.textContent = '@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap}@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:swap}@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap}';
+                    document.head.insertBefore(fontDisplayStyle, link);
+                }
                 document.head.appendChild(link);
             }
             
