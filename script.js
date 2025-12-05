@@ -452,39 +452,117 @@ $('.dot').on('click', function() {
 // ============================================
 // Contact Form Handling
 // ============================================
+// ============================================
+// Contact Form - EmailJS Integration
+// ============================================
+// 
+// SETUP REQUIRED: Follow these steps to enable email functionality:
+// 1. Sign up at https://www.emailjs.com/ (free account)
+// 2. Create an Email Service and get your Service ID
+// 3. Create an Email Template and get your Template ID
+// 4. Get your Public Key from Account settings
+// 5. Replace the placeholders below with your actual IDs
+// See EMAILJS_SETUP.md for detailed instructions
+//
+// Initialize EmailJS when the page loads
+$(document).ready(function() {
+    // TODO: Replace 'YOUR_PUBLIC_KEY' with your EmailJS Public Key
+    // Get it from: EmailJS Dashboard → Account → General → Public Key
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init('lf7LY46jr4BKBzMEq');
+    }
+});
+
 $('#contactForm').on('submit', function(e) {
     e.preventDefault();
     
     // Get form data
     const formData = {
-        name: $('input[name="name"]').val(),
-        email: $('input[name="email"]').val(),
-        subject: $('input[name="subject"]').val(),
-        message: $('textarea[name="message"]').val()
+        name: $('input[name="name"]').val().trim(),
+        email: $('input[name="email"]').val().trim(),
+        subject: $('input[name="subject"]').val().trim(),
+        message: $('textarea[name="message"]').val().trim()
     };
 
-    // Simple validation
+    // Validation
     if (!formData.name || !formData.email || !formData.message) {
-        alert('Please fill in all required fields.');
+        showMessage('Please fill in all required fields.', 'error');
         return;
     }
 
-    // Here you would typically send the data to a server
-    // For now, we'll just show a success message
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+        showMessage('Please enter a valid email address.', 'error');
+        return;
+    }
+
     const submitBtn = $(this).find('button[type="submit"]');
     const originalText = submitBtn.html();
     
+    // Show loading state
     submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Sending...');
     submitBtn.prop('disabled', true);
 
-    // Simulate form submission
-    setTimeout(function() {
-        alert('Thank you for your message! I will get back to you soon.');
-        $('#contactForm')[0].reset();
+    // Check if EmailJS is loaded
+    if (typeof emailjs === 'undefined') {
+        showMessage('Email service is not initialized. Please check your EmailJS configuration.', 'error');
         submitBtn.html(originalText);
         submitBtn.prop('disabled', false);
-    }, 1500);
+        return;
+    }
+
+    // Prepare email parameters
+    const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject || 'Contact Form Submission',
+        message: formData.message,
+        to_email: 'sohaibsheikh71@gmail.com' // Your email address
+    };
+
+    // Send email using EmailJS
+    // TODO: Replace 'YOUR_SERVICE_ID' with your EmailJS Service ID (from Email Services)
+    // TODO: Replace 'YOUR_TEMPLATE_ID' with your EmailJS Template ID (from Email Templates)
+    emailjs.send('service_9noyres', 'template_71f253r', templateParams)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            showMessage('Thank you for your message! I will get back to you soon.', 'success');
+            $('#contactForm')[0].reset();
+            submitBtn.html(originalText);
+            submitBtn.prop('disabled', false);
+        }, function(error) {
+            console.log('FAILED...', error);
+            showMessage('Sorry, there was an error sending your message. Please try again or contact me directly at sohaibsheikh71@gmail.com', 'error');
+            submitBtn.html(originalText);
+            submitBtn.prop('disabled', false);
+        });
 });
+
+// Function to show success/error messages
+function showMessage(message, type) {
+    // Remove any existing messages
+    $('.form-message').remove();
+    
+    const messageClass = type === 'success' ? 'form-message-success' : 'form-message-error';
+    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+    
+    const messageHtml = `
+        <div class="form-message ${messageClass}">
+            <i class="fas ${icon}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    $('#contactForm').after(messageHtml);
+    
+    // Auto-remove message after 5 seconds
+    setTimeout(function() {
+        $('.form-message').fadeOut(300, function() {
+            $(this).remove();
+        });
+    }, 5000);
+}
 
 // ============================================
 // Scroll Animations
