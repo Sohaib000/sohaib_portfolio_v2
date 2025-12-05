@@ -295,14 +295,24 @@ $(document).ready(function() {
         window.addEventListener('load', cacheSectionOffsets);
     }
     
-    // Throttled scroll handler using requestAnimationFrame - No forced reflows
+    // Throttled scroll handler using requestAnimationFrame - Optimized for mobile
+    let lastUpdateTime = 0;
+    const MOBILE_THROTTLE_MS = 100; // Throttle to 10fps on mobile for better performance
+    
     function updateActiveNav() {
+        const now = Date.now();
+        // Throttle more aggressively on mobile
+        if (now - lastUpdateTime < MOBILE_THROTTLE_MS) {
+            return;
+        }
+        lastUpdateTime = now;
+        
         // Use only window.pageYOffset to avoid forced reflow (read-only property)
         const scrollPos = window.pageYOffset || 0;
         const scrollPosWithOffset = scrollPos + 100;
         
-        // Only update if scroll position changed significantly
-        if (Math.abs(scrollPos - lastScrollPos) < 10) {
+        // Only update if scroll position changed significantly (increased threshold for mobile)
+        if (Math.abs(scrollPos - lastScrollPos) < 20) {
             return;
         }
         lastScrollPos = scrollPos;
@@ -332,12 +342,13 @@ $(document).ready(function() {
     }
     
     let rafId;
-    $(window).on('scroll', function() {
+    // Use passive listener for better mobile performance
+    window.addEventListener('scroll', function() {
         if (rafId) {
             cancelAnimationFrame(rafId);
         }
         rafId = requestAnimationFrame(updateActiveNav);
-    });
+    }, { passive: true });
 
     // Smooth scrolling for anchor links - Optimized to prevent forced reflows
     $('a[href^="#"]').on('click', function(e) {
@@ -375,10 +386,12 @@ $(document).ready(function() {
 });
 
 // ============================================
-// Navbar scroll effect - Optimized to prevent forced reflows
+// Navbar scroll effect - Optimized for mobile performance
 // ============================================
 let navbarRafId;
 let navbarShadowState = false;
+let lastNavbarUpdate = 0;
+const NAVBAR_THROTTLE_MS = 100; // Throttle to 10fps for mobile
 
 function updateNavbarShadow() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
@@ -395,12 +408,22 @@ function updateNavbarShadow() {
     }
 }
 
-$(window).on('scroll', function() {
+function handleNavbarScroll() {
+    const now = Date.now();
+    if (now - lastNavbarUpdate < NAVBAR_THROTTLE_MS) {
+        return;
+    }
+    lastNavbarUpdate = now;
+    updateNavbarShadow();
+}
+
+// Use passive listener for better mobile scrolling performance
+window.addEventListener('scroll', function() {
     if (navbarRafId) {
         cancelAnimationFrame(navbarRafId);
     }
-    navbarRafId = requestAnimationFrame(updateNavbarShadow);
-});
+    navbarRafId = requestAnimationFrame(handleNavbarScroll);
+}, { passive: true });
 
 // ============================================
 // Animated Counter for Stats
@@ -655,15 +678,21 @@ function showMessage(message, type) {
 function animateOnScroll() {
     const elements = $('.service-card, .project-card, .pricing-card, .skill-item');
     
+    // Optimize IntersectionObserver for mobile - use larger rootMargin to reduce checks
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                $(entry.target).addClass('animate-in');
+                // Use requestAnimationFrame to batch DOM updates
+                requestAnimationFrame(() => {
+                    entry.target.classList.add('animate-in');
+                    // Unobserve after animation to reduce overhead
+                    observer.unobserve(entry.target);
+                });
             }
         });
     }, {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -100px 0px' // Larger margin for mobile to reduce checks
     });
 
     elements.each(function() {
@@ -744,12 +773,13 @@ function updateScrollTopButton() {
     }
 }
 
-$(window).on('scroll', function() {
+// Combine scroll to top with other scroll handlers for better performance
+window.addEventListener('scroll', function() {
     if (scrollTopRafId) {
         cancelAnimationFrame(scrollTopRafId);
     }
     scrollTopRafId = requestAnimationFrame(updateScrollTopButton);
-});
+}, { passive: true });
 
 // Add styles for scroll to top button
 $('<style>')

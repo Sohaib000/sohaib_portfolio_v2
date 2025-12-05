@@ -48,6 +48,9 @@
 
 html {
     scroll-behavior: smooth;
+    /* Optimize scrolling performance on mobile */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -386,10 +389,12 @@ body.preloader-active {
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
     z-index: 1000;
-    transition: all 0.3s ease;
+    transition: box-shadow 0.2s ease; /* Only animate box-shadow, not all properties */
     border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-    will-change: transform, background-color;
-    transform: translateZ(0);
+    will-change: box-shadow; /* Only will-change what we animate */
+    transform: translateZ(0); /* Force GPU acceleration */
+    /* Optimize for mobile */
+    -webkit-transform: translateZ(0);
 }
 
 [data-theme="dark"] .navbar {
@@ -611,6 +616,10 @@ body.preloader-active {
     opacity: 1;
     visibility: visible;
     z-index: 1;
+    /* Optimize for mobile scrolling */
+    will-change: transform;
+    transform: translateZ(0); /* Force GPU acceleration */
+    -webkit-transform: translateZ(0);
 }
 
 .hero-background {
