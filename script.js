@@ -58,27 +58,12 @@ $(document).ready(function() {
 $(document).ready(function() {
     let resourcesLoaded = false;
     let minTimeElapsed = false;
-    const minDisplayTime = 800; // Minimum display time for smooth animation
+    const minDisplayTime = 300; // Reduced to 300ms to improve LCP
     const startTime = Date.now();
     let progress = 0;
 
-    // Show hero content immediately for LCP - No delay for banner visibility
-    const hero = document.querySelector('.hero');
-    const heroContent = document.querySelector('.hero-content');
-    const heroTitle = document.querySelector('.hero-title');
-    if (hero) {
-        hero.style.opacity = '1';
-        hero.style.visibility = 'visible';
-        hero.style.display = 'flex';
-    }
-    if (heroContent) {
-        heroContent.style.opacity = '1';
-        heroContent.style.visibility = 'visible';
-    }
-    if (heroTitle) {
-        heroTitle.style.opacity = '1';
-        heroTitle.style.visibility = 'visible';
-    }
+    // Hero is already visible via critical CSS - no JS manipulation needed for LCP
+    // This reduces forced reflows during page load
 
     // Check if preloader exists on this page
     const preloader = document.querySelector('.preloader');

@@ -597,6 +597,7 @@ body.preloader-active {
 /* ============================================
    Hero Section
    ============================================ */
+/* Ensure hero is visible immediately for LCP */
 .hero {
     min-height: 100vh;
     display: flex;

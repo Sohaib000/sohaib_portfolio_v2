@@ -8,93 +8,60 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <!-- Preconnect to CDN origins - Critical for early connection establishment -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous">
-    <link rel="preconnect" href="https://code.jquery.com" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://code.jquery.com">
     
     <!-- Preload critical CSS -->
     <link rel="preload" href="styles.css" as="style">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Inject font-display: swap for Font Awesome fonts - Inline for early application -->
-    <style>
-        /* Override Font Awesome CDN @font-face to add font-display: swap - Applied before CDN CSS */
-        @font-face {
-            font-family: "Font Awesome 6 Free";
-            font-style: normal;
-            font-weight: 900;
-            font-display: swap;
-            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2") format("woff2");
-        }
-        @font-face {
-            font-family: "Font Awesome 6 Free";
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-regular-400.woff2") format("woff2");
-        }
-        @font-face {
-            font-family: "Font Awesome 6 Brands";
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2") format("woff2");
-        }
-    </style>
-    <!-- Load Font Awesome CSS only after page is fully interactive - Remove from critical path -->
+    <!-- Load Font Awesome CSS ONLY after LCP - Defer completely to avoid blocking render -->
     <script>
         (function() {
-            function injectFontDisplay() {
-                // Inject font-face rules with font-display: swap AFTER CDN CSS loads to override it
-                var styleId = 'fa-font-display-override';
-                if (document.getElementById(styleId)) {
-                    return; // Already injected
-                }
-                var style = document.createElement('style');
-                style.id = styleId;
-                style.textContent = '@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2") format("woff2")}@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-regular-400.woff2") format("woff2")}@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap;src:url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2") format("woff2")}';
-                document.head.appendChild(style);
-            }
-            
+            // Load Font Awesome after page is interactive and LCP has rendered
             function loadFontAwesome() {
                 // Only load if not already loaded
                 if (document.querySelector('link[href*="font-awesome"][href*="all.min.css"]')) {
-                    // CSS already loaded, inject font-display override
-                    setTimeout(injectFontDisplay, 100);
                     return;
                 }
+                
                 var link = document.createElement('link');
                 link.rel = 'stylesheet';
                 link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-                link.media = 'all';
+                link.media = 'print'; // Load as print first to avoid blocking
                 link.crossOrigin = 'anonymous';
-                // Inject font-display override after CSS loads
                 link.onload = function() {
-                    setTimeout(injectFontDisplay, 50);
+                    this.media = 'all'; // Switch to all after load
+                    // Inject font-display: optional to prevent font loading from blocking
+                    var style = document.createElement('style');
+                    style.textContent = '@font-face{font-family:"Font Awesome 6 Free";font-display:optional}@font-face{font-family:"Font Awesome 6 Brands";font-display:optional}';
+                    document.head.appendChild(style);
                 };
                 document.head.appendChild(link);
-                // Fallback: inject after a delay even if onload doesn't fire
-                setTimeout(injectFontDisplay, 500);
             }
             
-            // Use requestIdleCallback if available, otherwise use longer delay after load
-            if (window.requestIdleCallback) {
-                window.requestIdleCallback(function() {
-                    setTimeout(loadFontAwesome, 1000);
-                }, { timeout: 2000 });
-            } else {
-                // Fallback: Load after page is fully loaded with longer delay
-                if (document.readyState === 'complete') {
-                    setTimeout(loadFontAwesome, 2000);
+            // Wait for LCP to complete before loading Font Awesome
+            if (document.readyState === 'complete') {
+                // Use requestIdleCallback with longer delay to ensure LCP is done
+                if (window.requestIdleCallback) {
+                    window.requestIdleCallback(function() {
+                        setTimeout(loadFontAwesome, 3000);
+                    }, { timeout: 5000 });
                 } else {
-                    window.addEventListener('load', function() {
-                        setTimeout(loadFontAwesome, 2000);
-                    });
+                    setTimeout(loadFontAwesome, 3000);
                 }
+            } else {
+                window.addEventListener('load', function() {
+                    // Wait additional time after load to ensure LCP is complete
+                    if (window.requestIdleCallback) {
+                        window.requestIdleCallback(function() {
+                            setTimeout(loadFontAwesome, 3000);
+                        }, { timeout: 5000 });
+                    } else {
+                        setTimeout(loadFontAwesome, 3000);
+                    }
+                });
             }
         })();
     </script>
@@ -106,6 +73,9 @@
     <style>
         /* Critical CSS for LCP - Hero Section - Inline for immediate render */
         .hero {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: flex !important;
             opacity: 1 !important;
             visibility: visible !important;
             z-index: 1 !important;
