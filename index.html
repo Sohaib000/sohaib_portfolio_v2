@@ -33,11 +33,13 @@
                 link.crossOrigin = 'anonymous';
                 link.onload = function() {
                     this.media = 'all'; // Switch to all after load
-                    // Inject font-display: optional to prevent font loading from blocking
-                    var style = document.createElement('style');
-                    style.textContent = '@font-face{font-family:"Font Awesome 6 Free";font-display:optional}@font-face{font-family:"Font Awesome 6 Brands";font-display:optional}';
-                    document.head.appendChild(style);
                 };
+                
+                // Inject font-display: swap BEFORE fonts are requested to ensure it applies
+                var fontDisplayStyle = document.createElement('style');
+                fontDisplayStyle.id = 'fa-font-display';
+                fontDisplayStyle.textContent = '@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap}@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:swap}@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap}';
+                document.head.insertBefore(fontDisplayStyle, link);
                 document.head.appendChild(link);
             }
             
@@ -74,20 +76,28 @@
             opacity: 1 !important;
             visibility: visible !important;
             display: flex !important;
-            opacity: 1 !important;
-            visibility: visible !important;
             z-index: 1 !important;
-            display: flex !important;
         }
         .hero-content {
             opacity: 1 !important;
             visibility: visible !important;
+            display: flex !important;
         }
         .hero-title {
             opacity: 1 !important;
             visibility: visible !important;
             animation: none !important;
             content-visibility: auto;
+        }
+        .hero-description {
+            opacity: 1 !important;
+            visibility: visible !important;
+            animation: none !important;
+        }
+        .hero-buttons {
+            opacity: 1 !important;
+            visibility: visible !important;
+            animation: none !important;
         }
         .preloader {
             z-index: 9998;
