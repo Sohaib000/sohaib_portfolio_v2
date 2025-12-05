@@ -16,10 +16,10 @@
     <link rel="preload" href="styles.css" as="style">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Load Font Awesome CSS ONLY after page is fully interactive - Reduced unused CSS impact -->
+    <!-- Load Font Awesome CSS asynchronously - Non-blocking but loads immediately -->
     <script>
         (function() {
-            // Load Font Awesome after page is interactive and LCP has rendered
+            // Load Font Awesome immediately but asynchronously to avoid blocking render
             function loadFontAwesome() {
                 // Only load if not already loaded
                 if (document.querySelector('link[href*="font-awesome"][href*="all.min.css"]')) {
@@ -46,25 +46,12 @@
                 document.head.appendChild(link);
             }
             
-            // Wait for LCP to complete before loading Font Awesome (reduced delay for better UX)
-            if (document.readyState === 'complete') {
-                if (window.requestIdleCallback) {
-                    window.requestIdleCallback(function() {
-                        setTimeout(loadFontAwesome, 2000);
-                    }, { timeout: 4000 });
-                } else {
-                    setTimeout(loadFontAwesome, 2000);
-                }
+            // Load immediately after DOM is ready (non-blocking)
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', loadFontAwesome);
             } else {
-                window.addEventListener('load', function() {
-                    if (window.requestIdleCallback) {
-                        window.requestIdleCallback(function() {
-                            setTimeout(loadFontAwesome, 2000);
-                        }, { timeout: 4000 });
-                    } else {
-                        setTimeout(loadFontAwesome, 2000);
-                    }
-                });
+                // DOM already ready, load immediately
+                loadFontAwesome();
             }
         })();
     </script>
