@@ -10,43 +10,34 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="styles.css" as="style">
     <link rel="stylesheet" href="styles.css">
-    <!-- Load Font Awesome CSS asynchronously - Non-blocking but loads immediately -->
-    <script>
-        (function() {
-            function loadFontAwesome() {
-                // Only load if not already loaded
-                if (document.querySelector('link[href*="font-awesome"][href*="all.min.css"]')) {
-                    return;
-                }
-                
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-                link.media = 'print'; // Load as print first to avoid blocking
-                link.crossOrigin = 'anonymous';
-                link.onload = function() {
-                    this.media = 'all'; // Switch to all after load
-                };
-                
-                // Inject font-display: swap BEFORE fonts are requested to ensure it applies
-                if (!document.getElementById('fa-font-display')) {
-                    var fontDisplayStyle = document.createElement('style');
-                    fontDisplayStyle.id = 'fa-font-display';
-                    fontDisplayStyle.textContent = '@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:swap}@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:swap}@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:swap}';
-                    document.head.insertBefore(fontDisplayStyle, link);
-                }
-                document.head.appendChild(link);
-            }
-            // Load immediately after DOM is ready (non-blocking)
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', loadFontAwesome);
-            } else {
-                // DOM already ready, load immediately
-                loadFontAwesome();
-            }
-        })();
-    </script>
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <!-- Preconnect to Font Awesome CDN for faster loading -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Load Font Awesome CSS - Direct load for reliability -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    
+    <!-- Inject font-display: swap for Font Awesome fonts -->
+    <style>
+        @font-face {
+            font-family: "Font Awesome 6 Free";
+            font-style: normal;
+            font-weight: 900;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font Awesome 6 Free";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Font Awesome 6 Brands";
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+    </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Inject font-display: swap for Font Awesome fonts - Include all font variants -->
     <style>
