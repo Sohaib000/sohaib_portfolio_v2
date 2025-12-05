@@ -456,31 +456,43 @@ $('.dot').on('click', function() {
 // Contact Form - EmailJS Integration
 // ============================================
 // 
-// SETUP REQUIRED: Follow these steps to enable email functionality:
-// 1. Sign up at https://www.emailjs.com/ (free account)
-// 2. Create an Email Service and get your Service ID
-// 3. Create an Email Template and get your Template ID
-// 4. Get your Public Key from Account settings
-// 5. Replace the placeholders below with your actual IDs
+// CONFIGURATION REQUIRED:
+// 1. Replace 'YOUR_PUBLIC_KEY' with your EmailJS Public Key
+// 2. Replace 'YOUR_SERVICE_ID' with your EmailJS Service ID
+// 3. Replace 'YOUR_TEMPLATE_ID' with your EmailJS Template ID
+// 
+// Get these from: https://www.emailjs.com/
 // See EMAILJS_SETUP.md for detailed instructions
-//
-// Initialize EmailJS when the page loads
-// Wait for both jQuery and EmailJS to be loaded (since scripts are deferred)
+
+// EmailJS Configuration
+const EMAILJS_CONFIG = {
+    publicKey: 'lf7LY46jr4BKBzMEq',
+    serviceID: 'service_9noyres',
+    templateID: 'template_ar0dc9e'
+};
+
+// Initialize EmailJS when page loads
 function initEmailJS() {
     if (typeof emailjs !== 'undefined') {
-        emailjs.init('lf7LY46jr4BKBzMEq');
+        emailjs.init(EMAILJS_CONFIG.publicKey);
         console.log('EmailJS initialized successfully');
+        return true;
     } else {
-        // Retry if EmailJS not loaded yet
+        console.warn('EmailJS not loaded yet, retrying...');
         setTimeout(initEmailJS, 100);
+        return false;
     }
 }
 
+// Wait for DOM and EmailJS to be ready
 $(document).ready(function() {
-    // Initialize EmailJS after a short delay to ensure it's loaded
-    setTimeout(initEmailJS, 200);
+    // Initialize EmailJS after a short delay to ensure library is loaded
+    setTimeout(function() {
+        initEmailJS();
+    }, 300);
 });
 
+// Contact Form Submission Handler
 $('#contactForm').on('submit', function(e) {
     e.preventDefault();
     
@@ -492,19 +504,20 @@ $('#contactForm').on('submit', function(e) {
         message: $('textarea[name="message"]').val().trim()
     };
 
-    // Validation
+    // Validation - Check required fields
     if (!formData.name || !formData.email || !formData.message) {
         showMessage('Please fill in all required fields.', 'error');
         return;
     }
 
-    // Email validation
+    // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
         showMessage('Please enter a valid email address.', 'error');
         return;
     }
 
+    // Get submit button and store original content
     const submitBtn = $(this).find('button[type="submit"]');
     const originalText = submitBtn.html();
     
@@ -513,65 +526,63 @@ $('#contactForm').on('submit', function(e) {
     submitBtn.prop('disabled', true);
 
     // Check if EmailJS is loaded and initialized
-    if (typeof emailjs === 'undefined' || !emailjs.init) {
-        showMessage('Email service is not initialized. Please check your EmailJS configuration.', 'error');
+    if (typeof emailjs === 'undefined') {
+        showMessage('Email service is not available. Please refresh the page and try again.', 'error');
         submitBtn.html(originalText);
         submitBtn.prop('disabled', false);
         return;
     }
 
-    // Prepare email parameters
-    // Note: Variable names must match your EmailJS template variables
+    // Prepare template parameters (must match your EmailJS template variables)
     const templateParams = {
-        name: formData.name,  // Template uses {{name}}
-        from_email: formData.email,  // Template uses {{from_email}}
-        subject: formData.subject || 'Contact Form Submission',  // Template uses {{subject}}
-        message: formData.message,  // Template uses {{message}}
-        time: new Date().toLocaleString()  // Template uses {{time}} for timestamp
+        name: formData.name,                    // {{name}} in template
+        from_email: formData.email,             // {{from_email}} in template (optional)
+        subject: formData.subject || 'Contact Form Submission',  // {{subject}} in template
+        message: formData.message,              // {{message}} in template
+        time: new Date().toLocaleString()       // {{time}} in template
     };
 
     // Send email using EmailJS
-    console.log('Sending email with params:', templateParams);
-    console.log('Service ID: service_9noyres');
-    console.log('Template ID: template_71f253r');
-    
-    emailjs.send('service_9noyres', 'template_71f253r', templateParams)
+    emailjs.send(EMAILJS_CONFIG.serviceID, EMAILJS_CONFIG.templateID, templateParams)
         .then(function(response) {
-            console.log('SUCCESS!', response.status, response.text);
+            console.log('Email sent successfully!', response.status, response.text);
             showMessage('Thank you for your message! I will get back to you soon.', 'success');
             $('#contactForm')[0].reset();
             submitBtn.html(originalText);
             submitBtn.prop('disabled', false);
         }, function(error) {
-            console.error('EmailJS Error Details:', error);
-            console.error('Error Status:', error.status);
-            console.error('Error Text:', error.text);
+            console.error('EmailJS Error:', error);
+            console.error('Status:', error.status);
+            console.error('Text:', error.text);
             
-            let errorMessage = 'Sorry, there was an error sending your message. ';
+            // Provide specific error messages
+            let errorMsg = 'Sorry, there was an error sending your message. ';
             if (error.status === 400) {
-                errorMessage += 'Please check that all form fields are filled correctly.';
+                errorMsg += 'Please check that all fields are filled correctly.';
             } else if (error.status === 401) {
-                errorMessage += 'Authentication error. Please check your EmailJS Public Key.';
+                errorMsg += 'Authentication error. Please check your EmailJS Public Key.';
             } else if (error.status === 404) {
-                errorMessage += 'Service or Template not found. Please verify your Service ID and Template ID.';
+                errorMsg += 'Service or Template not found. Please verify your Service ID and Template ID.';
             } else {
-                errorMessage += 'Please try again or contact me directly at sohaibsheikh71@gmail.com';
+                errorMsg += 'Please try again or contact me directly at sohaibsheikh71@gmail.com';
             }
             
-            showMessage(errorMessage, 'error');
+            showMessage(errorMsg, 'error');
             submitBtn.html(originalText);
             submitBtn.prop('disabled', false);
         });
 });
 
-// Function to show success/error messages
+// Function to display success/error messages
 function showMessage(message, type) {
     // Remove any existing messages
     $('.form-message').remove();
     
+    // Determine message styling
     const messageClass = type === 'success' ? 'form-message-success' : 'form-message-error';
     const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
     
+    // Create message HTML
     const messageHtml = `
         <div class="form-message ${messageClass}">
             <i class="fas ${icon}"></i>
@@ -579,6 +590,7 @@ function showMessage(message, type) {
         </div>
     `;
     
+    // Insert message after the form
     $('#contactForm').after(messageHtml);
     
     // Auto-remove message after 5 seconds

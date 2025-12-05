@@ -18,21 +18,95 @@ This contact form uses EmailJS to send emails directly from the browser without 
 ### Step 3: Create an Email Template
 1. Go to **Email Templates** in your dashboard
 2. Click **Create New Template**
-3. Use this template structure:
+3. Set the **Subject** to: `New Contact Form Message from {{name}}`
+4. In the **Content** section, switch to **HTML** mode and paste this exact code:
 
+```html
+<div style="font-family: system-ui, sans-serif, Arial; font-size: 12px">
+
+  <div>A message by {{name}} has been received. Kindly respond at your earliest convenience.</div>
+
+  <div
+
+    style="
+
+      margin-top: 20px;
+
+      padding: 15px 0;
+
+      border-width: 1px 0;
+
+      border-style: dashed;
+
+      border-color: lightgrey;
+
+    "
+
+  >
+
+    <table role="presentation">
+
+      <tr>
+
+        <td style="vertical-align: top">
+
+          <div
+
+            style="
+
+              padding: 6px 10px;
+
+              margin: 0 10px;
+
+              background-color: aliceblue;
+
+              border-radius: 5px;
+
+              font-size: 26px;
+
+            "
+
+            role="img"
+
+          >
+
+            👤
+
+          </div>
+
+        </td>
+
+        <td style="vertical-align: top">
+
+          <div style="color: #2c3e50; font-size: 16px">
+
+            <strong>{{name}}</strong>
+
+          </div>
+
+          <div style="color: #cccccc; font-size: 13px">{{time}}</div>
+
+          <p style="font-size: 16px">{{message}}</p>
+
+        </td>
+
+      </tr>
+
+    </table>
+
+  </div>
+
+</div>
 ```
-Subject: {{subject}}
 
-From: {{from_name}} ({{from_email}})
+**Template Variables Used:**
+- `{{name}}` - Sender's name
+- `{{from_email}}` - Sender's email address (optional, can be added if needed)
+- `{{subject}}` - Message subject (used in email subject line)
+- `{{message}}` - Message content
+- `{{time}}` - Timestamp (automatically generated)
 
-Message:
-{{message}}
-
----
-This email was sent from your portfolio contact form.
-```
-
-4. **Copy your Template ID** (you'll need this)
+5. **Copy your Template ID** (you'll need this)
 
 ### Step 4: Get Your Public Key
 1. Go to **Account** → **General**
