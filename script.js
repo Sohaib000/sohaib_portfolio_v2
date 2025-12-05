@@ -53,13 +53,14 @@ $(document).ready(function() {
 });
 
 // ============================================
-// Preloader
+// Preloader with Progress
 // ============================================
 $(document).ready(function() {
     let resourcesLoaded = false;
     let minTimeElapsed = false;
-    const minDisplayTime = 300; // Reduced to 300ms for faster LCP
+    const minDisplayTime = 800; // Minimum display time for smooth animation
     const startTime = Date.now();
+    let progress = 0;
 
     // Show hero content immediately for LCP - No delay for banner visibility
     const hero = document.querySelector('.hero');
@@ -81,6 +82,8 @@ $(document).ready(function() {
 
     // Check if preloader exists on this page
     const preloader = document.querySelector('.preloader');
+    const progressFill = document.querySelector('.progress-fill');
+    const progressText = document.querySelector('.progress-text');
     const isResumePage = window.location.pathname.includes('resume.html') || 
                          document.querySelector('.resume-page') !== null;
 
@@ -91,6 +94,30 @@ $(document).ready(function() {
             body.classList.add('preloader-active');
             body.style.overflow = 'hidden';
         });
+
+        // Simulate progress
+        function updateProgress() {
+            if (progress < 90) {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+            } else if (document.readyState === 'complete') {
+                progress = 100;
+            }
+
+            if (progressFill) {
+                progressFill.style.width = progress + '%';
+            }
+            if (progressText) {
+                progressText.textContent = Math.floor(progress) + '%';
+            }
+
+            if (progress < 100) {
+                setTimeout(updateProgress, 100);
+            }
+        }
+
+        // Start progress animation
+        setTimeout(updateProgress, 200);
     } else {
         // No preloader or on resume page - ensure scrolling is enabled
         const body = document.body;
@@ -101,6 +128,14 @@ $(document).ready(function() {
     function checkResourcesLoaded() {
         if (document.readyState === 'complete') {
             resourcesLoaded = true;
+            // Complete progress when resources are loaded
+            if (progressFill) {
+                progress = 100;
+                progressFill.style.width = '100%';
+            }
+            if (progressText) {
+                progressText.textContent = '100%';
+            }
         }
     }
 
@@ -112,42 +147,70 @@ $(document).ready(function() {
     }
 
     function checkIfReady() {
-        if (resourcesLoaded && minTimeElapsed) {
+        checkResourcesLoaded();
+        checkMinTime();
+        
+        if (resourcesLoaded && minTimeElapsed && progress >= 100) {
             requestAnimationFrame(function() {
                 const preloader = document.querySelector('.preloader');
                 const body = document.body;
                 
                 if (preloader) {
+                    // Add fade-out animation
                     preloader.classList.add('hidden');
                     setTimeout(function() {
                         preloader.style.display = 'none';
                         body.classList.remove('preloader-active');
                         body.style.overflow = '';
-                    }, 300);
+                    }, 500);
                 } else {
                     // No preloader element found (e.g., on resume page) - remove preloader styles immediately
                     body.classList.remove('preloader-active');
                     body.style.overflow = '';
                 }
             });
+        } else if (preloader && !isResumePage) {
+            // Continue checking
+            setTimeout(checkIfReady, 100);
         }
     }
 
     // Check when window loads
     $(window).on('load', function() {
         resourcesLoaded = true;
+        if (progressFill) {
+            progress = 100;
+            progressFill.style.width = '100%';
+        }
+        if (progressText) {
+            progressText.textContent = '100%';
+        }
         checkIfReady();
     });
 
     // Check if already loaded
     if (document.readyState === 'complete') {
         resourcesLoaded = true;
+        if (progressFill) {
+            progress = 100;
+            progressFill.style.width = '100%';
+        }
+        if (progressText) {
+            progressText.textContent = '100%';
+        }
     } else {
         // Fallback check
         setTimeout(function() {
             resourcesLoaded = true;
+            if (progressFill) {
+                progress = 100;
+                progressFill.style.width = '100%';
+            }
+            if (progressText) {
+                progressText.textContent = '100%';
+            }
             checkIfReady();
-        }, 50); // Reduced from 100ms
+        }, 50);
     }
 
     // Check minimum time
@@ -155,7 +218,7 @@ $(document).ready(function() {
     setInterval(function() {
         checkMinTime();
         checkIfReady();
-    }, 50); // Reduced from 100ms
+    }, 50);
 
     // Fallback timeout (reduced to 2 seconds)
     setTimeout(function() {
