@@ -465,12 +465,20 @@ $('.dot').on('click', function() {
 // See EMAILJS_SETUP.md for detailed instructions
 //
 // Initialize EmailJS when the page loads
-$(document).ready(function() {
-    // TODO: Replace 'YOUR_PUBLIC_KEY' with your EmailJS Public Key
-    // Get it from: EmailJS Dashboard → Account → General → Public Key
+// Wait for both jQuery and EmailJS to be loaded (since scripts are deferred)
+function initEmailJS() {
     if (typeof emailjs !== 'undefined') {
         emailjs.init('lf7LY46jr4BKBzMEq');
+        console.log('EmailJS initialized successfully');
+    } else {
+        // Retry if EmailJS not loaded yet
+        setTimeout(initEmailJS, 100);
     }
+}
+
+$(document).ready(function() {
+    // Initialize EmailJS after a short delay to ensure it's loaded
+    setTimeout(initEmailJS, 200);
 });
 
 $('#contactForm').on('submit', function(e) {
@@ -504,8 +512,8 @@ $('#contactForm').on('submit', function(e) {
     submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Sending...');
     submitBtn.prop('disabled', true);
 
-    // Check if EmailJS is loaded
-    if (typeof emailjs === 'undefined') {
+    // Check if EmailJS is loaded and initialized
+    if (typeof emailjs === 'undefined' || !emailjs.init) {
         showMessage('Email service is not initialized. Please check your EmailJS configuration.', 'error');
         submitBtn.html(originalText);
         submitBtn.prop('disabled', false);
@@ -513,17 +521,20 @@ $('#contactForm').on('submit', function(e) {
     }
 
     // Prepare email parameters
+    // Note: Variable names must match your EmailJS template variables
     const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject || 'Contact Form Submission',
-        message: formData.message,
-        to_email: 'sohaibsheikh71@gmail.com' // Your email address
+        name: formData.name,  // Template uses {{name}}
+        from_email: formData.email,  // Template uses {{from_email}}
+        subject: formData.subject || 'Contact Form Submission',  // Template uses {{subject}}
+        message: formData.message,  // Template uses {{message}}
+        time: new Date().toLocaleString()  // Template uses {{time}} for timestamp
     };
 
     // Send email using EmailJS
-    // TODO: Replace 'YOUR_SERVICE_ID' with your EmailJS Service ID (from Email Services)
-    // TODO: Replace 'YOUR_TEMPLATE_ID' with your EmailJS Template ID (from Email Templates)
+    console.log('Sending email with params:', templateParams);
+    console.log('Service ID: service_9noyres');
+    console.log('Template ID: template_71f253r');
+    
     emailjs.send('service_9noyres', 'template_71f253r', templateParams)
         .then(function(response) {
             console.log('SUCCESS!', response.status, response.text);
@@ -532,8 +543,22 @@ $('#contactForm').on('submit', function(e) {
             submitBtn.html(originalText);
             submitBtn.prop('disabled', false);
         }, function(error) {
-            console.log('FAILED...', error);
-            showMessage('Sorry, there was an error sending your message. Please try again or contact me directly at sohaibsheikh71@gmail.com', 'error');
+            console.error('EmailJS Error Details:', error);
+            console.error('Error Status:', error.status);
+            console.error('Error Text:', error.text);
+            
+            let errorMessage = 'Sorry, there was an error sending your message. ';
+            if (error.status === 400) {
+                errorMessage += 'Please check that all form fields are filled correctly.';
+            } else if (error.status === 401) {
+                errorMessage += 'Authentication error. Please check your EmailJS Public Key.';
+            } else if (error.status === 404) {
+                errorMessage += 'Service or Template not found. Please verify your Service ID and Template ID.';
+            } else {
+                errorMessage += 'Please try again or contact me directly at sohaibsheikh71@gmail.com';
+            }
+            
+            showMessage(errorMessage, 'error');
             submitBtn.html(originalText);
             submitBtn.prop('disabled', false);
         });
