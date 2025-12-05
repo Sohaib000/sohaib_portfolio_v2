@@ -760,6 +760,79 @@ $('.scroll-indicator').on('click', function() {
 });
 
 // ============================================
+// Typewriter Effect for Hero Subtitle
+// ============================================
+$(document).ready(function() {
+    const typewriterElement = document.getElementById('typewriter-text');
+    if (!typewriterElement) return;
+
+    const roles = [
+        { prefix: 'WordPress ', suffix: 'Developer' },
+        { prefix: 'Frontend ', suffix: 'Developer' },
+        { prefix: 'UI/UX ', suffix: 'Developer' }
+    ];
+
+    let currentRoleIndex = 0;
+    let currentCharIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 100; // Base typing speed in ms
+    let deletingSpeed = 50; // Faster when deleting
+    let pauseTime = 2000; // Pause before switching roles
+
+    function typeWriter() {
+        const currentRole = roles[currentRoleIndex];
+        const fullText = currentRole.prefix + currentRole.suffix;
+        const prefixLength = currentRole.prefix.length;
+        
+        if (!isDeleting && currentCharIndex > prefixLength) {
+            // Typing the "Developer" part - apply different color
+            const prefixText = currentRole.prefix;
+            const suffixText = currentRole.suffix.substring(0, currentCharIndex - prefixLength);
+            typewriterElement.innerHTML = prefixText + '<span class="developer-text">' + suffixText + '</span>';
+        } else if (!isDeleting && currentCharIndex <= prefixLength) {
+            // Typing the prefix part
+            const prefixText = currentRole.prefix.substring(0, currentCharIndex);
+            typewriterElement.innerHTML = prefixText;
+        } else if (isDeleting && currentCharIndex > prefixLength) {
+            // Deleting the "Developer" part
+            const prefixText = currentRole.prefix;
+            const suffixText = currentRole.suffix.substring(0, currentCharIndex - prefixLength);
+            typewriterElement.innerHTML = prefixText + '<span class="developer-text">' + suffixText + '</span>';
+        } else {
+            // Deleting the prefix part
+            const prefixText = currentRole.prefix.substring(0, currentCharIndex);
+            typewriterElement.innerHTML = prefixText;
+        }
+
+        if (!isDeleting) {
+            // Typing forward
+            currentCharIndex++;
+            if (currentCharIndex <= fullText.length) {
+                setTimeout(typeWriter, typingSpeed);
+            } else {
+                // Finished typing, pause then start deleting
+                isDeleting = true;
+                setTimeout(typeWriter, pauseTime);
+            }
+        } else {
+            // Deleting backward
+            currentCharIndex--;
+            if (currentCharIndex >= 0) {
+                setTimeout(typeWriter, deletingSpeed);
+            } else {
+                // Finished deleting, move to next role
+                isDeleting = false;
+                currentRoleIndex = (currentRoleIndex + 1) % roles.length;
+                setTimeout(typeWriter, 500); // Brief pause before starting next role
+            }
+        }
+    }
+
+    // Start the typewriter effect after a short delay
+    setTimeout(typeWriter, 1000);
+});
+
+// ============================================
 // Initialize on Document Ready
 // ============================================
 $(document).ready(function() {

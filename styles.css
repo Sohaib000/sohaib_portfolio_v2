@@ -580,6 +580,30 @@ body.preloader-active {
     font-weight: 600;
     color: var(--text-secondary);
     animation: fadeInUp 1s ease 0.4s both;
+    display: inline-block;
+    min-height: 1.5em; /* Prevent layout shift during typing */
+}
+
+.typewriter-cursor {
+    display: inline-block;
+    margin-left: 2px;
+    color: var(--accent-primary);
+    animation: blink 1s infinite;
+    font-weight: 300;
+}
+
+.developer-text {
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
 }
 
 .hero-description {
