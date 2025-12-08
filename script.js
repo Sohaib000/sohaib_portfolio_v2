@@ -828,44 +828,90 @@ $('<style>')
 let aboutSectionOffset = null;
 
 function getAboutSectionOffset() {
+    // If not cached, calculate it synchronously
     if (aboutSectionOffset === null) {
         const aboutSection = document.querySelector('#about');
         if (aboutSection) {
-            // Cache offset using single RAF - double RAF adds unnecessary delay
-            requestAnimationFrame(function() {
-                // Use getBoundingClientRect in RAF to avoid forced reflow
-                const rect = aboutSection.getBoundingClientRect();
-                // Use only window.pageYOffset to avoid forced reflow
-                const scrollTop = window.pageYOffset || 0;
-                aboutSectionOffset = rect.top + scrollTop;
-            });
-            // Return 0 initially, will be updated in next frame
-            return 0;
+            // Calculate offset synchronously to ensure it's available on first click
+            const rect = aboutSection.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+            aboutSectionOffset = rect.top + scrollTop;
+        } else {
+            // Fallback: calculate based on viewport height if section not found
+            aboutSectionOffset = window.innerHeight;
         }
     }
     return aboutSectionOffset || 0;
 }
 
+// Pre-calculate offset when DOM is ready
+function calculateAboutSectionOffset() {
+    const aboutSection = document.querySelector('#about');
+    if (aboutSection) {
+        const rect = aboutSection.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        aboutSectionOffset = rect.top + scrollTop;
+    }
+}
+
 // Scroll indicator click handler - Optimized for mobile touch
-const scrollIndicator = document.querySelector('.scroll-indicator');
-if (scrollIndicator) {
+function initScrollIndicator() {
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (!scrollIndicator) return;
+    
+    // Pre-calculate offset on initialization
+    calculateAboutSectionOffset();
+    
+    // Recalculate offset on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            aboutSectionOffset = null; // Reset cache
+            calculateAboutSectionOffset();
+        }, 100);
+    }, { passive: true });
+    
     // Use both click and touchstart for better mobile support
     function handleScrollClick(e) {
         e.preventDefault();
         e.stopPropagation();
+        
+        // Ensure offset is calculated before scrolling
         const offset = getAboutSectionOffset();
-        requestAnimationFrame(function() {
-            $('html, body').animate({
-                scrollTop: offset - 70
-            }, 1000, 'easeInOutCubic');
+        
+        // Use native smooth scroll for better reliability
+        const targetPosition = Math.max(0, offset - 70);
+        
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
         });
     }
     
     scrollIndicator.addEventListener('click', handleScrollClick, { passive: false });
+    
+    // Handle touch events separately to avoid double-firing
+    let touchStartTime = 0;
+    scrollIndicator.addEventListener('touchstart', function(e) {
+        touchStartTime = Date.now();
+    }, { passive: true });
+    
     scrollIndicator.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        handleScrollClick(e);
+        // Only trigger if it's a quick tap (not a swipe)
+        if (Date.now() - touchStartTime < 300) {
+            e.preventDefault();
+            handleScrollClick(e);
+        }
     }, { passive: false });
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollIndicator);
+} else {
+    // DOM already ready
+    initScrollIndicator();
 }
 
 // ============================================
