@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse a selection of featured WordPress projects by Sohaib, including custom themes, plugins, and WooCommerce solutions.">
+    <title>Projects - SOHAIB</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Preconnect to CDN origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Font Awesome -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-background">
+            <div class="preloader-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+        <div class="preloader-content">
+            <div class="preloader-logo">
+                <span class="logo-text">SOHAIB</span>
+                <div class="logo-underline"></div>
+            </div>
+            <div class="loader-wrapper">
+                <div class="loader">
+                    <div class="loader-ring"></div>
+                    <div class="loader-ring"></div>
+                    <div class="loader-ring"></div>
+                </div>
+            </div>
+            <div class="preloader-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <span class="progress-text">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="index.html#home">SOHAIB</a>
+                </div>
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html#home" class="nav-link">Home</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="index.html#services" class="nav-link">Services</a>
+                    <a href="#projects" class="nav-link active">Projects</a>
+                    <a href="index.html#testimonials" class="nav-link">Testimonials</a>
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                    <a href="resume.html" class="nav-link">Resume</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="https://wa.me/923105204482" target="_blank" class="whatsapp-btn" title="Contact on WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="blog-header">
+        <div class="container">
+            <div class="blog-header-content">
+                <h1>Projects</h1>
+                <p>Explore a selection of custom WordPress themes, plugins, and WooCommerce solutions I’ve built for clients.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">All Projects</h2>
+                <p class="section-subtitle">More examples of my recent work</p>
+            </div>
+
+            <div class="projects-filters">
+                <button class="projects-filter active" data-filter="all">All</button>
+                <button class="projects-filter" data-filter="wordpress">WordPress</button>
+                <button class="projects-filter" data-filter="elementor">Elementor</button>
+                <button class="projects-filter" data-filter="custom">Custom Template</button>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card" data-project="1" data-categories="wordpress elementor">
+                    <div class="project-image">
+                        <img src="images/Advantech_bg-1.png" alt="AdvanTec Marine WordPress Site" width="600" height="400" loading="lazy">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=1" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>AdvanTec Marine</h3>
+                        <p>Custom WordPress website for a marine engineering company</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>Elementor</span>
+                            <span>PHP</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="2" data-categories="wordpress custom">
+                    <div class="project-image">
+                        <img src="images/Lorient.png" alt="Lorient Capital WordPress Site" width="600" height="400" loading="lazy">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=2" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Lorient Capital</h3>
+                        <p>Fully responsive WordPress theme with custom post types and widgets</p>
+                        <div class="project-tags">
+                            <span>Custom WordPress Theme</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                            <span>PHP</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="3" data-categories="wordpress elementor">
+                    <div class="project-image">
+                        <img src="images/top-dog-1.jpg" alt="Top Dog Canine Coaching WordPress Site" width="600" height="400" loading="lazy">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=3" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Top Dog</h3>
+                        <p>Custom WordPress website for a dog training company</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>PHP</span>
+                            <span>Elementor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="4" data-categories="wordpress custom">
+                    <div class="project-image">
+                        <img src="images/Metropolitan-ss_2.png" alt="Metropolitan Concrete Corp. WordPress Site" width="600" height="400" loading="lazy">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=4" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Metropolitan</h3>
+                        <p>Developed the corporate website for Metropolitan Concrete Corp.</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>PHP</span>
+                            <span>Custom Theme</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="5" data-categories="wordpress elementor">
+                    <div class="project-image">
+                        <img src="images/kupees_1.png" alt="Kuppes Landscape WordPress Site" width="600" height="400" loading="lazy">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=5" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>kuppes Landscape</h3>
+                        <p>Developed the corporate website for kuppes Landscape.</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>Elementor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="6" data-categories="wordpress custom">
+                    <div class="project-image">
+                        <img src="images/azok-1.png" alt="Azok Home Cleaning Services WordPress Site" width="600" height="400" loading="lazy">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=6" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Azok</h3>
+                        <p>Developed and designed the corporate website for Azok Group</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>Custom Theme</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                            <span>PHP</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-project="7" data-categories="wordpress elementor">
+                    <div class="project-image">
+                        <img src="images/lincoln-1.png" alt="Lincoln Logistics WordPress Site" width="600" height="400" loading="lazy">
+                        <div class="project-overlay">
+                            <a href="project-detail.html?id=7" class="project-link">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Lincoln Logistics</h3>
+                        <p>Developed and designed the corporate website for Lincoln Logistics</p>
+                        <div class="project-tags">
+                            <span>WordPress</span>
+                            <span>Elementor</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Let's work together on your next project</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Connect</h3>
+                    <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p><a href="mailto:sohaibsheikh71@gmail.com">sohaibsheikh71@gmail.com</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p><a href="tel:+923105204482">+92 310 520 4482</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Location</h4>
+                                <p>Available for Remote Work</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <p class="form-note">
+                            <i class="fas fa-lock"></i> I promise the confidentiality of your personal information
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 All Rights Reserved.</p>
+                <div class="footer-links">
+                    <a href="index.html#home">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+    <script type="text/javascript" src="https://unpkg.com/@emailjs/browser@4/dist/email.min.js" defer></script>
+    <script src="js/script.js" defer></script>
+</body>
+</html>
+

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View detailed information about SOHAIB's WordPress development projects including e-commerce sites, custom themes, plugins, and web solutions.">
+    <title>Project Details - SOHAIB</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Preconnect to Font Awesome CDN for faster loading -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Load Font Awesome CSS - Direct load for reliability -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .project-detail {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+        .project-detail-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .project-detail-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .project-detail-header .project-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .project-detail-header .project-tags {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .project-detail-header .project-tags span {
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .project-detail-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .project-hero-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
+        }
+        .project-description {
+            background: var(--bg-secondary);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+        }
+        .project-description h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        .project-description p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .project-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+        }
+        .back-button:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .project-link-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        .project-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .project-link-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+        }
+        .project-link-btn.secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <a href="index.html">SOHAIB</a>
+                </div>
+                <div class="nav-menu" id="navMenu">
+                    <a href="index.html#home" class="nav-link">Home</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="index.html#services" class="nav-link">Services</a>
+                    <a href="index.html#projects" class="nav-link">Projects</a>
+                    <a href="index.html#testimonials" class="nav-link">Testimonials</a>
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Detail Section -->
+    <section class="project-detail">
+        <div class="container">
+            <div class="project-detail-content">
+                <a href="index.html#projects" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Back to Projects
+                </a>
+
+                <div class="project-detail-header" id="projectHeader">
+                    <h1 id="projectTitle">Loading...</h1>
+                    <div class="project-meta">
+                        <span><i class="far fa-calendar"></i> <span id="projectDate">2024</span></span>
+                        <span><i class="fas fa-user"></i> Client: <span id="projectClient">Client Name</span></span>
+                        <span><i class="fas fa-tag"></i> Category: <span id="projectCategory">Web Development</span></span>
+                    </div>
+                    <div class="project-tags" id="projectTags"></div>
+                </div>
+
+                <img src="" alt="Project Image" class="project-hero-image" id="projectHeroImage">
+
+                <div class="project-description">
+                    <h2>Project Overview</h2>
+                    <div id="projectDescription"></div>
+                </div>
+
+                <div class="project-features" id="projectFeatures"></div>
+
+                <div class="project-gallery" id="projectGallery"></div>
+
+                <div class="project-links" id="projectLinks"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 All Rights Reserved.</p>
+                <div class="footer-links">
+                    <a href="index.html#home">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#projects">Projects</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Project data
+        const projects = {
+            1: {
+                title: "AdvanTec Marine",
+                date: "January 2024",
+                client: "AdvanTec Marine",
+                category: "Elementor",
+                tags: ["WordPress", "Elementor", "PHP", "JavaScript"],
+                heroImage: "images/Advantech_bg-1.png",
+                description: `
+                    <p>Designed and developed the corporate website for AdvanTec Marine, a global leader in engineered marine closures and equipment. The website showcases the company’s extensive product portfolio, including watertight doors, hatches, marine windows, sliding doors, and cranes designed for commercial vessels, luxury yachts, and defense applications.</p>
+                    <p>The project focused on creating a clean, structured, and user-friendly digital experience that clearly communicates technical product information while reinforcing the company’s strong brand identity. Key priorities included intuitive navigation, organized product categorization, responsive design across devices, and performance optimization. The website effectively supports both informational and commercial goals by enabling customers, shipbuilders, and marine professionals to explore product specifications, request information, and connect with the company globally.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-mobile-alt",
+                        title: "Responsive Design",
+                        description: "Fully responsive layout that works perfectly on all devices"
+                    },
+                    {
+                        icon: "fas fa-tachometer-alt",
+                        title: "Performance Optimized",
+                        description: "Optimized for speed with caching, image optimization, and CDN integration"
+                    }
+                ],
+                gallery: [
+                    "images/Advantech_ss.png",
+                    "images/Advantech_s_2.png",
+                    "images/Advantech_ss_3.png",
+                    "images/Advantech_ss_4.png"
+                ],
+                links: [
+                    { text: "Live Site", url: "https://advantecmarine.com/", icon: "fas fa-external-link-alt" },
+                ]
+            },
+            2: {
+                title: "Lorient Capital",   
+                date: "March 2024",
+                client: "Lorient Capital",
+                category: "Custom WordPress Theme",
+                tags: ["WordPress", "CSS3", "JavaScript", "Custom Theme"],
+                heroImage: "images/Lorient.png",
+                description: `
+                    <p>Lorientcap.com is the official corporate website of Lorient Capital, a private equity firm focused exclusively on the healthcare industry. The site presents the firm’s mission to partner with mission-driven healthcare entrepreneurs and invest in companies that improve care delivery, patient outcomes, and health system efficiency. It highlights Lorient’s investment approach, philosophy of collaborative partnerships, and focus areas spanning healthcare providers, services, and technology companies.</p>
+                    <p>The site also features sections introducing the investment team, portfolio partnerships, and recent news and insights about the firm’s activities and industry developments. Designed to communicate both credibility and depth of expertise, the platform supports informational, branding, and business-development goals for institutional audiences and potential partners.</p>`,
+                features: [
+                    {
+                        icon: "fas fa-mobile-alt",
+                        title: "responsive design",
+                        description: "responsive design that works perfectly on all devices"
+                    },
+                    {
+                        icon: "fas fa-palette",
+                        title: "Customizable Design",
+                        description: "Easy customization through WordPress customizer"
+                    }
+                ],
+                gallery: [
+                    "images/Lorient.png",
+                    "images/Lorient_ss_2.png",
+                    "images/Lorient_ss_3.png"
+                ],
+                links: [
+                    { text: "Live Site", url: "https://lorientcap.com/", icon: "fas fa-external-link-alt" }
+                ]
+            },
+            3: {
+                title: "Top Dog",
+                date: "January 2025",
+                client: "Top Dog",
+                category: "Elementor",
+                tags: ["WordPress", "Elementor", "PHP", "JavaScript"],
+                heroImage: "images/top-dog-1.jpg",
+                description: `
+                    <p>Developed and structured the website for Top Dog Canine Coaching, a professional dog training service dedicated to helping dogs and their owners build stronger, more harmonious relationships. The site highlights a range of personalized training programs, including puppy training, obedience training, reactivity and behavior consultations, and customized coaching sessions tailored to each dog’s unique needs.</p>
+                    <p>It emphasizes positive reinforcement techniques, strengthening communication between pets and their families, and resolving common behavior issues with effective, humane methods. The platform also features informative blog content on dog behavior and training tips, clear service descriptions, contact details, and testimonials, all designed to engage visitors and support business-development goals for the coaching practice.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-mobile-alt",
+                        title: "responsive design",
+                        description: "responsive design that works perfectly on all devices"
+                    },
+                    {
+                        icon: "fas fa-palette",
+                        title: "Responsive Design",
+                        description: "Easy customization through WordPress customizer"
+                    },
+                    {
+                        icon: "fas fa-puzzle-piece",
+                        title: "Elementor Page Builder",
+                        description: "Elementor page builder for the website"
+                    }
+                ],
+                gallery: [
+                    "images/top-dog-1.jpg",
+                    "images/top-dog-2.png   ",
+                    "images/top-dog-3.png"
+                ],
+                links: [
+                    { text: "Live Site", url: "https://tdk9c.com/", icon: "fas fa-external-link-alt" }
+                ]
+            },
+            4: {
+                title: "Metropolitan Concrete Corp.",
+                date: "January 2025",
+                client: "Metropolitan Concrete Corp.",
+                category: "Custom Theme",
+                tags: ["WordPress", "PHP", "Custom Theme", "CSS3", "JavaScript"],
+                heroImage: "images/Metropolitan-ss_2.png",
+                description: `
+                    <p>Developed the corporate website for Metropolitan Concrete Corp., a long-established family-owned concrete contractor based in Sterling Heights, Michigan. The site presents the company’s broad range of professional concrete services — including commercial, industrial, residential, and municipal concrete work, as well as related offerings such as snow removal and bulk salt supply — backed by over 60 years of experience and a reputation for quality, integrity, and craftsmanship.</p>
+                    <p>ontent highlights the company’s history, service categories, project galleries, career opportunities, and contact information, all organized to support both customer inquiries and brand credibility. Designed with clear navigation and structured service descriptions, the site enhances user understanding of Metropolitan Concrete’s expertise and encourages engagement from potential clients and partners.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-mobile-alt",
+                        title: "responsive design",
+                        description: "responsive design that works perfectly on all devices"
+                    },
+                    {
+                        icon: "fas fa-palette",
+                        title: "Customizable Design",
+                        description: "Easy customization through WordPress customizer"
+                    },
+                    {
+                        icon: "fas fa-bullhorn",
+                        title: "SEO Optimized",
+                        description: "Advanced SEO features and optimization"
+                    }
+                ],
+                gallery: [
+                    "images/Metropolitan-ss_2.png",
+                    "images/Metropolitan-ss_3.png",
+                    "images/Metropolitan-ss_4.png"
+                ],
+                links: [
+                    { text: "Live Site", url: "https://www.metropolitanconcrete.com/", icon: "fas fa-external-link-alt" }
+                ]
+            },
+            5: {
+                title: "kuppes Landscape",
+                date: "March 2025",
+                client: "kuppes Landscape",
+                category: "Elementor",
+                tags: ["WordPress", "Elementor"],
+                heroImage: "images/kupees_1.png",
+                description: `
+                    <p>Designed the website for Kuppes Landscape, a professional landscaping company offering comprehensive outdoor services including landscape design, installation, hardscaping, lawn care, irrigation solutions, seasonal clean-ups, and maintenance programs. The site showcases the company’s expertise in creating functional, attractive outdoor spaces for residential and commercial clients, emphasizing quality craftsmanship, sustainable practices, and personalized service.</p>
+                    <p>The platform features clearly organized service pages, project galleries highlighting past work, customer testimonials, and easy-to-find contact information to support lead generation and client engagement. With intuitive navigation, responsive design across devices, and strategically structured content, the website effectively communicates the company’s value proposition and reinforces its brand identity in a competitive local market.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-mobile-alt",
+                        title: "responsive design",
+                        description: "responsive design that works perfectly on all devices"
+                    },
+                    {
+                        icon: "fas fa-palette",
+                        title: "Customizable Design",
+                        description: "Easy customization through WordPress customizer"
+                    },
+                    {
+                        icon: "fas fa-puzzle-piece",
+                        title: "Elementor Page Builder",
+                        description: "Elementor page builder for the website"
+                    }
+                ],
+                gallery: [
+                    "images/kupees_1.png",
+                    "images/kupees_2.png",
+                    "images/kupees_3.png"
+                ],
+                links: [
+                    { text: "Live Site", url: "https://kuppeslandscape.com/", icon: "fas fa-external-link-alt" }
+                ]
+            },
+            6: {
+                title: "Azok Group – Premier Hospitality Management & Services",
+                date: "December 2025",
+                client: "Azok Group",
+                category: "Custom Theme",
+                tags: ["WordPress", "PHP", "Custom Theme", "CSS3", "JavaScript"],
+                heroImage: "images/azok-1.png",
+                description: `
+                    <p>Developed and designed the corporate website for Azok Group, a full-service hospitality and real estate development firm with over two decades of experience crafting high-quality hospitality, restaurant, retail, and construction projects. The site presents the company’s integrated capabilities — from investment and development to operations, sales & marketing, financial services, and hospitality management — and highlights their broad portfolio of hotels, restaurants, and commercial properties.</p>
+                    <p>The platform is structured to clearly communicate Azok Group’s depth of expertise with intuitive navigation across core sections including “Who We Are,” “Services,” “Portfolio,” and “Restaurants.” It showcases detailed service offerings such as daily operations support, new development and acquisitions, and food & beverage management, as well as examples of branded restaurant and hotel projects. The website emphasizes the company’s commitment to excellence, market-savvy investment strategies, and community-focused approach, supporting both informational and business-development goals.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-mobile-alt",
+                        title: "responsive design",
+                        description: "responsive design that works perfectly on all devices"
+                    },
+                    {
+                        icon: "fas fa-palette",
+                        title: "Customizable Design",
+                        description: "Easy customization through WordPress customizer"
+                    },
+                    {
+                        icon: "fas fa-bullhorn",
+                        title: "SEO Optimized",
+                        description: "Advanced SEO features and optimization"
+                    },
+                    {
+                        icon: "fas fa-code",
+                        title: "Developer Friendly",
+                        description: "Extensible with hooks and filters"
+                    }
+                ],
+                gallery: [
+                    "images/azok-1.png",
+                    "images/azok-2.png",
+                    "images/azok-3.png"
+                ],
+                links: [
+                    { text: "Live Site", url: "https://azokgroup.com/", icon: "fas fa-external-link-alt" }
+                ]
+            },
+            7: {
+                title: "Lincoln Logistics",
+                date: "August 2025",
+                client: "Lincoln Logistics",
+                category: "Elementor",
+                tags: ["WordPress", "Elementor"],
+                heroImage: "images/lincoln-1.png",
+                description: `
+                    <p>designed the website for Lincoln Logistics Dumpster Rentals, a local dumpster rental service based in Gastonia, North Carolina. The site showcases the company’s core offerings in roll-off dumpster rentals for residential and commercial waste management projects, emphasizing reliable delivery, flexible rental periods, transparent pricing, and a range of dumpster sizes to suit small clean-ups through large renovation or construction jobs.</p>
+                `,
+                features: [
+                    {
+                        icon: "fas fa-mobile-alt",
+                        title: "responsive design",
+                        description: "responsive design that works perfectly on all devices"
+                    },
+                    {
+                        icon: "fas fa-palette",
+                        title: "Responsive Design",
+                        description: "Easy customization through WordPress customizer"
+                    },
+                    {
+                        icon: "fas fa-puzzle-piece",
+                        title: "Elementor Page Builder",
+                        description: "Elementor page builder for the website"
+                    }
+                ],
+                gallery: [
+                    "images/lincoln-1.png",
+                    "images/lincoln-2.png",
+                    "images/lincoln-3.png"
+                ],
+                links: [
+                    { text: "Live Site", url: "https://lincolnlogisticsdumpsterrentals.com/", icon: "fas fa-external-link-alt" }
+                ]
+            }
+        };
+
+        // Get project ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('id') || '1';
+        const project = projects[projectId];
+
+        if (project) {
+            // Populate project data
+            $('#projectTitle').text(project.title);
+            $('#projectDate').text(project.date);
+            $('#projectClient').text(project.client);
+            $('#projectCategory').text(project.category);
+            $('#projectHeroImage').attr('src', project.heroImage).attr('alt', project.title);
+            $('#projectDescription').html(project.description);
+
+            // Populate tags
+            const tagsHtml = project.tags.map(tag => `<span>${tag}</span>`).join('');
+            $('#projectTags').html(tagsHtml);
+
+            // Populate features
+            const featuresHtml = project.features.map(feature => `
+                <div class="feature-card">
+                    <i class="${feature.icon}"></i>
+                    <h3>${feature.title}</h3>
+                    <p>${feature.description}</p>
+                </div>
+            `).join('');
+            $('#projectFeatures').html(featuresHtml);
+
+            // Populate gallery
+            const galleryHtml = project.gallery.map(image => `
+                <div class="gallery-item">
+                    <img src="${image}" alt="Project Screenshot">
+                </div>
+            `).join('');
+            $('#projectGallery').html(galleryHtml);
+
+            // Populate links
+            const linksHtml = project.links.map(link => `
+                <a href="${link.url}" class="project-link-btn ${link.secondary ? 'secondary' : ''}" target="_blank">
+                    <i class="${link.icon}"></i> ${link.text}
+                </a>
+            `).join('');
+            $('#projectLinks').html(linksHtml);
+
+            // Update page title
+            document.title = `${project.title} - SOHAIB`;
+        } else {
+            // Project not found
+            $('#projectTitle').text('Project Not Found');
+            $('#projectDescription').html('<p>The requested project could not be found.</p>');
+        }
+
+        // Gallery lightbox functionality
+        $(document).on('click', '.gallery-item', function() {
+            const imgSrc = $(this).find('img').attr('src');
+            const lightbox = $(`
+                <div class="lightbox" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <img src="${imgSrc}" style="max-width: 90%; max-height: 90%; border-radius: 10px;">
+                    <button style="position: absolute; top: 20px; right: 20px; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem;">&times;</button>
+                </div>
+            `);
+            $('body').append(lightbox);
+            lightbox.on('click', function() {
+                lightbox.remove();
+            });
+        });
+    </script>
+</body>
+</html>
+
